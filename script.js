@@ -454,17 +454,25 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // NUEVO: Lógica para cambiar la foto de perfil
+    // Lógica MEJORADA para cambiar la foto de perfil (Más fiable en móviles)
     if (avatarFileInput) {
         avatarFileInput.addEventListener('change', (e) => {
             const file = e.target.files[0];
             if (file) {
+                // 1. **Móvil Fix: Usar URL.createObjectURL para previsualización inmediata y rápida**
+                const objectUrl = URL.createObjectURL(file);
+                userAvatarProfileEl.src = objectUrl; // Actualiza el DOM inmediatamente
+                
+                // 2. Usar FileReader para obtener la Data URL (Base64) y guardarla en localStorage (persistencia)
                 const reader = new FileReader();
                 reader.onload = function(e) {
-                    const newAvatarUrl = e.target.result;
-                    appState.user.avatarUrl = newAvatarUrl;
-                    localStorage.setItem('userAvatarUrl', newAvatarUrl);
-                    userAvatarProfileEl.src = newAvatarUrl; // Actualizar inmediatamente
+                    const dataUrl = e.target.result;
+                    appState.user.avatarUrl = dataUrl;
+                    localStorage.setItem('userAvatarUrl', dataUrl);
+                    
+                    // Limpiar la URL temporal de objeto después de guardar la data
+                    URL.revokeObjectURL(objectUrl);
+
                     showModal('success', 'Foto de perfil actualizada.');
                 };
                 reader.readAsDataURL(file);
