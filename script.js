@@ -9,7 +9,8 @@ document.addEventListener('DOMContentLoaded', () => {
             name: 'Carlos López',
             email: 'carlos.lopez@email.com',
             phone: '3001234567',
-            // NUEVO: URL del avatar (si no hay guardada, usa la predeterminada)
+            // --- CAMBIO CLAVE PARA LA PERSISTENCIA ---
+            // Cargar la URL guardada en localStorage si existe. Si no, usar la URL por defecto.
             avatarUrl: localStorage.getItem('userAvatarUrl') || 'https://i.pravatar.cc/150?u=carlos' 
         }
     };
@@ -190,7 +191,7 @@ document.addEventListener('DOMContentLoaded', () => {
         userEmailProfileEl.textContent = appState.user.email;
         userNequiNumberEl.textContent = `+57 ${appState.user.phone}`;
         
-        // NUEVO: Actualizar imagen de perfil
+        // NUEVO: Actualizar imagen de perfil usando appState.user.avatarUrl (que ya incluye el valor de localStorage)
         if (userAvatarProfileEl) {
             userAvatarProfileEl.src = appState.user.avatarUrl; 
         }
@@ -209,6 +210,9 @@ document.addEventListener('DOMContentLoaded', () => {
     };
     
     // --- ESTADO INICIAL ---
+    // Llamar a updateUI aquí para que la foto se cargue desde el localStorage antes de cualquier navegación
+    updateUI(); 
+
     if (localStorage.getItem('theme') === 'dark') {
         document.documentElement.classList.add('dark');
         darkModeToggle.checked = true;
@@ -454,21 +458,21 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Lógica MEJORADA para cambiar la foto de perfil (Más fiable en móviles)
+    // Lógica MEJORADA para cambiar la foto de perfil (Más fiable en móviles y persistente)
     if (avatarFileInput) {
         avatarFileInput.addEventListener('change', (e) => {
             const file = e.target.files[0];
             if (file) {
-                // 1. **Móvil Fix: Usar URL.createObjectURL para previsualización inmediata y rápida**
+                // 1. Usar URL.createObjectURL para previsualización inmediata y rápida (SOLUCIÓN MÓVIL)
                 const objectUrl = URL.createObjectURL(file);
                 userAvatarProfileEl.src = objectUrl; // Actualiza el DOM inmediatamente
                 
-                // 2. Usar FileReader para obtener la Data URL (Base64) y guardarla en localStorage (persistencia)
+                // 2. Usar FileReader para obtener la Data URL (Base64) y guardarla en localStorage (PERSISTENCIA/CACHE)
                 const reader = new FileReader();
                 reader.onload = function(e) {
                     const dataUrl = e.target.result;
                     appState.user.avatarUrl = dataUrl;
-                    localStorage.setItem('userAvatarUrl', dataUrl);
+                    localStorage.setItem('userAvatarUrl', dataUrl); // <-- GUARDA LA IMAGEN EN CACHÉ DEL NAVEGADOR
                     
                     // Limpiar la URL temporal de objeto después de guardar la data
                     URL.revokeObjectURL(objectUrl);
@@ -508,7 +512,7 @@ document.addEventListener('DOMContentLoaded', () => {
         appState.balance = 0;
         appState.activePlans = [];
         appState.transactions = []; // Limpiar historial al cerrar sesión
-        // Opcional: limpiar el avatar guardado
+        // Opcional: limpiar el avatar guardado al cerrar sesión
         localStorage.removeItem('userAvatarUrl');
         appState.user.avatarUrl = 'https://i.pravatar.cc/150?u=carlos'; // Restaurar por defecto
         window.location.hash = '#login';
@@ -525,3 +529,4 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 });
+
