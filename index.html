@@ -90,10 +90,10 @@
                         <span class="material-symbols-outlined text-3xl text-cyan-500">north</span>
                         <span class="font-semibold text-sm">Retirar</span>
                     </a>
-                    <div class="bg-gray-200 dark:bg-gray-800 p-4 rounded-2xl flex flex-col items-center justify-center text-center space-y-2 cursor-pointer hover:bg-gray-300 dark:hover:bg-gray-700">
+                    <a href="#referidos" class="bg-gray-200 dark:bg-gray-800 p-4 rounded-2xl flex flex-col items-center justify-center text-center space-y-2 cursor-pointer hover:bg-gray-300 dark:hover:bg-gray-700 transition-colors">
                         <span class="material-symbols-outlined text-3xl text-cyan-500">groups</span>
                         <span class="font-semibold text-sm">Referidos</span>
-                    </div>
+                    </a>
                      <a href="#historial" class="bg-gray-200 dark:bg-gray-800 p-4 rounded-2xl flex flex-col items-center justify-center text-center space-y-2 cursor-pointer hover:bg-gray-300 dark:hover:bg-gray-700 transition-colors">
                         <span class="material-symbols-outlined text-3xl text-cyan-500">history</span>
                         <span class="font-semibold text-sm">Historial</span>
@@ -288,7 +288,13 @@
                     <h1 class="text-2xl font-bold">Perfil</h1>
                 </header>
                 <div class="flex flex-col items-center gap-4 mb-8">
-                    <img src="https://i.pravatar.cc/150?u=carlos" alt="Avatar" class="h-32 w-32 rounded-full border-4 border-cyan-500">
+                    <div class="relative">
+                        <img id="user-avatar-profile" src="https://i.pravatar.cc/150?u=carlos" alt="Avatar" class="h-32 w-32 rounded-full border-4 border-cyan-500 object-cover">
+                        <input type="file" id="avatar-file-input" accept="image/*" class="hidden">
+                        <label for="avatar-file-input" class="absolute bottom-0 right-0 bg-cyan-500 text-white p-2 rounded-full cursor-pointer hover:bg-cyan-600 transition-colors border-2 border-white dark:border-gray-900">
+                            <span class="material-symbols-outlined text-base" style="font-size: 1rem;">photo_camera</span>
+                        </label>
+                    </div>
                     <div class="text-center">
                         <p id="user-name-profile" class="text-2xl font-bold">Carlos López</p>
                         <p id="user-email-profile" class="text-base text-gray-500">carlos.lopez@email.com</p>
@@ -386,6 +392,35 @@
                     </div>
                 </div>
             </div>
+        </section>
+        
+        <section id="referidos-page" class="page hidden flex-col items-center min-h-screen p-4">
+            <div class="w-full max-w-md">
+               <header class="flex items-center mb-6 relative">
+                   <a href="#dashboard" class="absolute left-0 p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700">
+                       <span class="material-symbols-outlined">arrow_back</span>
+                   </a>
+                   <h1 class="text-2xl font-bold text-center flex-grow">Mi Enlace de Referido</h1>
+               </header>
+               <div class="w-full bg-gray-200 dark:bg-gray-800 rounded-2xl p-6 text-center">
+                    <p class="text-gray-600 dark:text-gray-400 mb-6">Comparte este enlace con tus amigos para empezar a ganar comisiones.</p>
+                    
+                    <div class="mb-6 p-4 bg-gray-100 dark:bg-gray-900 rounded-lg">
+                        <p class="text-sm text-gray-500 mb-2">Tu Enlace Personal</p>
+                        <div class="flex items-center justify-between gap-4">
+                            <input type="text" id="referral-link-input" value="https://inversiones.app/ref/carlos_dev" 
+                                   class="flex-1 p-2 bg-transparent font-mono text-sm border border-gray-400 dark:border-gray-600 rounded-lg focus:outline-none" 
+                                   readonly>
+                            <button id="copy-referral-link" class="p-2 bg-cyan-500 text-white rounded-lg hover:bg-cyan-600 transition-colors flex items-center">
+                                 <span class="material-symbols-outlined text-xl">content_copy</span>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <p class="text-sm text-gray-500 dark:text-gray-400 mt-6">Recuerda: obtienes un 5% de comisión por cada inversión que realice tu referido.</p>
+                </div>
+            </div>
+            <nav class="app-nav"></nav>
         </section>
 
     </div>
