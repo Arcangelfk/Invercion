@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="es" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inversiones App</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
+
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body class="bg-gray-100 dark:bg-gray-900 text-gray-800 dark:text-gray-200 font-sans transition-colors duration-300">
+
+    <div id="app-container">
+
+        <section id="login-page" class="page flex flex-col items-center justify-center min-h-screen p-4">
+            <div class="w-full max-w-md text-center">
+                <h1 class="text-4xl font-bold text-cyan-500 mb-4">Bienvenido</h1>
+                <p class="text-gray-600 dark:text-gray-400 mb-8">Usa las credenciales de prueba para entrar.</p>
+                <form id="login-form" class="space-y-6">
+                    <input type="email" id="login-email" placeholder="Email (prueba: prueba@correo.com)" class="w-full p-4 bg-gray-200 dark:bg-gray-800 rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-500" required>
+                    <input type="password" id="login-password" placeholder="Contraseña (prueba: 12345)" class="w-full p-4 bg-gray-200 dark:bg-gray-800 rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-500" required>
+                    <button type="submit" class="w-full p-4 bg-cyan-500 text-white font-bold rounded-lg hover:bg-cyan-600 transition-colors">Iniciar Sesión</button>
+                </form>
+                <div class="mt-6 text-center">
+                    <a href="#recuperar" class="text-sm text-cyan-500 hover:underline">¿Olvidaste tu contraseña?</a>
+                    <p class="mt-4 text-sm">¿No tienes cuenta? <a href="#registro" class="font-bold text-cyan-500 hover:underline">Regístrate</a></p>
+                </div>
+            </div>
+        </section>
+
+        <section id="registro-page" class="page hidden flex flex-col items-center justify-center min-h-screen p-4">
+            <div class="w-full max-w-md text-center">
+                <h1 class="text-4xl font-bold text-cyan-500 mb-4">Crear Cuenta</h1>
+                <p class="text-gray-600 dark:text-gray-400 mb-8">Completa tus datos para empezar.</p>
+                <form id="register-form" class="space-y-6">
+                    <input type="text" placeholder="Nombre completo" class="w-full p-4 bg-gray-200 dark:bg-gray-800 rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-500" required>
+                    <input type="email" placeholder="Correo electrónico" class="w-full p-4 bg-gray-200 dark:bg-gray-800 rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-500" required>
+                    <input type="tel" placeholder="Número de celular (Nequi)" class="w-full p-4 bg-gray-200 dark:bg-gray-800 rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-500" required>
+                    <input type="password" placeholder="Contraseña" class="w-full p-4 bg-gray-200 dark:bg-gray-800 rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-500" required>
+                    <input type="text" placeholder="ID de Referido (Opcional)" class="w-full p-4 bg-gray-200 dark:bg-gray-800 rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-500">
+                    <button type="submit" class="w-full p-4 bg-cyan-500 text-white font-bold rounded-lg hover:bg-cyan-600 transition-colors">Registrarse</button>
+                </form>
+                <div class="mt-6 text-center">
+                    <p class="mt-4 text-sm">¿Ya tienes cuenta? <a href="#login" class="font-bold text-cyan-500 hover:underline">Inicia Sesión</a></p>
+                </div>
+            </div>
+        </section>
+
+        <section id="recuperar-page" class="page hidden flex flex-col items-center justify-center min-h-screen p-4">
+            <div class="w-full max-w-md text-center">
+                <h1 class="text-4xl font-bold text-cyan-500 mb-4">Recuperar Acceso</h1>
+                <p class="text-gray-600 dark:text-gray-400 mb-8">Ingresa tu correo para enviarte un enlace de recuperación.</p>
+                <form id="recover-form" class="space-y-6">
+                    <input type="email" placeholder="Correo electrónico" class="w-full p-4 bg-gray-200 dark:bg-gray-800 rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-500" required>
+                    <button type="submit" class="w-full p-4 bg-cyan-500 text-white font-bold rounded-lg hover:bg-cyan-600 transition-colors">Enviar Enlace</button>
+                </form>
+                <div class="mt-6 text-center">
+                     <a href="#login" class="text-sm text-cyan-500 hover:underline">Volver a Inicio de Sesión</a>
+                </div>
+            </div>
+        </section>
+
+        <main id="dashboard-page" class="page hidden min-h-screen flex-col">
+            <div class="flex-grow p-4 pb-24">
+                <header class="flex justify-between items-center mb-6">
+                    <div>
+                        <p class="text-md text-gray-500">Bienvenido,</p>
+                        <h1 id="user-name-header" class="text-2xl font-bold">Carlos López</h1>
+                    </div>
+                    <button class="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700">
+                        <span class="material-symbols-outlined">notifications</span>
+                    </button>
+                </header>
+                <section class="bg-gradient-to-br from-cyan-500 to-blue-600 rounded-2xl p-6 text-white shadow-lg mb-6">
+                    <p class="text-sm opacity-80">Balance Total</p>
+                    <p id="total-balance" class="text-4xl font-bold tracking-tight mt-1">$0</p>
+                </section>
+                <section class="grid grid-cols-2 gap-4">
+                    <a href="#depositar" class="bg-gray-200 dark:bg-gray-800 p-4 rounded-2xl flex flex-col items-center justify-center text-center space-y-2 cursor-pointer hover:bg-gray-300 dark:hover:bg-gray-700 transition-colors">
+                        <span class="material-symbols-outlined text-3xl text-cyan-500">south</span>
+                        <span class="font-semibold text-sm">Depositar</span>
+                    </a>
+                    <a href="#retirar" class="bg-gray-200 dark:bg-gray-800 p-4 rounded-2xl flex flex-col items-center justify-center text-center space-y-2 cursor-pointer hover:bg-gray-300 dark:hover:bg-gray-700 transition-colors">
+                        <span class="material-symbols-outlined text-3xl text-cyan-500">north</span>
+                        <span class="font-semibold text-sm">Retirar</span>
+                    </a>
+                    <div class="bg-gray-200 dark:bg-gray-800 p-4 rounded-2xl flex flex-col items-center justify-center text-center space-y-2 cursor-pointer hover:bg-gray-300 dark:hover:bg-gray-700">
+                        <span class="material-symbols-outlined text-3xl text-cyan-500">groups</span>
+                        <span class="font-semibold text-sm">Referidos</span>
+                    </div>
+                     <a href="#historial" class="bg-gray-200 dark:bg-gray-800 p-4 rounded-2xl flex flex-col items-center justify-center text-center space-y-2 cursor-pointer hover:bg-gray-300 dark:hover:bg-gray-700 transition-colors">
+                        <span class="material-symbols-outlined text-3xl text-cyan-500">history</span>
+                        <span class="font-semibold text-sm">Historial</span>
+                    </a>
+                </section>
+                
+                <section id="active-plans-section" class="mt-8">
+                    <h2 class="text-xl font-bold mb-4">Mis Planes Activos</h2>
+                    <div id="active-plans-container" class="space-y-4">
+                        <p id="no-active-plans-msg" class="text-center text-gray-500 dark:text-gray-400 py-4">No tienes planes activos.</p>
+                    </div>
+                </section>
+                </div>
+            <nav class="app-nav"></nav>
+        </main>
+        
+        <section id="planes-page" class="page hidden min-h-screen flex-col">
+            <div class="flex-grow p-4 pb-24">
+                <header class="text-center mb-6">
+                    <h1 class="text-2xl font-bold">Planes de Inversión</h1>
+                    <p class="text-gray-500 mt-1">Elige el plan que mejor se adapte a ti.</p>
+                </header>
+                <div id="plans-container" class="space-y-6">
+
+                    <div class="bg-gray-200 dark:bg-gray-800 rounded-2xl p-4 shadow-lg flex flex-col">
+                        <div class="flex gap-4">
+                            <img src="https://images.unsplash.com/photo-1618503551912-d98136c14ebb?w=500&q=80" alt="Máquina de Snacks" class="w-24 h-24 rounded-lg object-cover">
+                            <div class="flex-1">
+                                <h2 class="font-bold text-lg">Máquina de Snacks</h2>
+                                <p class="text-sm text-cyan-500 font-semibold">Plan Básico</p>
+                                <div class="flex mt-2 space-x-2">
+                                    <span class="bg-orange-500/20 text-orange-500 text-xs font-bold px-2 py-1 rounded-full">3.5% ROI</span>
+                                    <span class="bg-yellow-500/20 text-yellow-500 text-xs font-bold px-2 py-1 rounded-full">VIP 0</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="grid grid-cols-2 gap-4 mt-4 text-center">
+                           <div class="bg-gray-300 dark:bg-gray-700/50 p-3 rounded-lg">
+                               <p class="text-xs text-gray-500">Precio Equipo</p>
+                               <p class="font-bold text-sm">$50.000</p>
+                           </div>
+                           <div class="bg-gray-300 dark:bg-gray-700/50 p-3 rounded-lg">
+                               <p class="text-xs text-gray-500">Período</p>
+                               <p class="font-bold text-sm">365 días</p>
+                           </div>
+                           <div class="bg-blue-500/10 p-3 rounded-lg">
+                               <p class="text-xs text-blue-400">Ganancia Diaria</p>
+                               <p class="font-bold text-sm text-blue-400">$1.750</p>
+                           </div>
+                           <div class="bg-green-500/10 p-3 rounded-lg">
+                               <p class="text-xs text-green-400">Ganancia Total</p>
+                               <p class="font-bold text-sm text-green-400">$638.750</p>
+                           </div>
+                        </div>
+                        <button class="buy-plan-btn mt-4 w-full p-3 bg-cyan-500 text-white font-bold rounded-lg hover:bg-cyan-600 transition-colors" data-price="50000" data-name="Básico" data-machine-name="Máquina de Snacks" data-daily-roi="1750" data-min-withdrawal="30000">Comprar Plan</button>
+                    </div>
+
+                    <div class="bg-gray-200 dark:bg-gray-800 rounded-2xl p-4 shadow-lg flex flex-col">
+                        <div class="flex gap-4">
+                            <img src="https://images.unsplash.com/photo-1598214886806-2c94a456d9a4?w=500&q=80" alt="Máquina de Bebidas" class="w-24 h-24 rounded-lg object-cover">
+                            <div class="flex-1">
+                                <h2 class="font-bold text-lg">Máquina de Bebidas</h2>
+                                <p class="text-sm text-cyan-500 font-semibold">Plan Avanzado</p>
+                                <div class="flex mt-2 space-x-2">
+                                    <span class="bg-orange-500/20 text-orange-500 text-xs font-bold px-2 py-1 rounded-full">3.5% ROI</span>
+                                    <span class="bg-yellow-500/20 text-yellow-500 text-xs font-bold px-2 py-1 rounded-full">VIP 1</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="grid grid-cols-2 gap-4 mt-4 text-center">
+                           <div class="bg-gray-300 dark:bg-gray-700/50 p-3 rounded-lg">
+                               <p class="text-xs text-gray-500">Precio Equipo</p>
+                               <p class="font-bold text-sm">$100.000</p>
+                           </div>
+                           <div class="bg-gray-300 dark:bg-gray-700/50 p-3 rounded-lg">
+                               <p class="text-xs text-gray-500">Período</p>
+                               <p class="font-bold text-sm">365 días</p>
+                           </div>
+                           <div class="bg-blue-500/10 p-3 rounded-lg">
+                               <p class="text-xs text-blue-400">Ganancia Diaria</p>
+                               <p class="font-bold text-sm text-blue-400">$3.500</p>
+                           </div>
+                           <div class="bg-green-500/10 p-3 rounded-lg">
+                               <p class="text-xs text-green-400">Ganancia Total</p>
+                               <p class="font-bold text-sm text-green-400">$1.277.500</p>
+                           </div>
+                        </div>
+                         <button class="buy-plan-btn mt-4 w-full p-3 bg-cyan-500 text-white font-bold rounded-lg hover:bg-cyan-600 transition-colors" data-price="100000" data-name="Avanzado" data-machine-name="Máquina de Bebidas" data-daily-roi="3500" data-min-withdrawal="60000">Comprar Plan</button>
+                    </div>
+
+                    <div class="bg-gray-200 dark:bg-gray-800 rounded-2xl p-4 shadow-lg flex flex-col">
+                        <div class="flex gap-4">
+                            <img src="https://images.unsplash.com/photo-1565065239333-3c2298a5a49a?w=500&q=80" alt="Máquina de Café" class="w-24 h-24 rounded-lg object-cover">
+                            <div class="flex-1">
+                                <h2 class="font-bold text-lg">Máquina de Café</h2>
+                                <p class="text-sm text-cyan-500 font-semibold">Plan Premium</p>
+                                <div class="flex mt-2 space-x-2">
+                                    <span class="bg-orange-500/20 text-orange-500 text-xs font-bold px-2 py-1 rounded-full">3.5% ROI</span>
+                                    <span class="bg-yellow-500/20 text-yellow-500 text-xs font-bold px-2 py-1 rounded-full">VIP 2</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="grid grid-cols-2 gap-4 mt-4 text-center">
+                           <div class="bg-gray-300 dark:bg-gray-700/50 p-3 rounded-lg">
+                               <p class="text-xs text-gray-500">Precio Equipo</p>
+                               <p class="font-bold text-sm">$150.000</p>
+                           </div>
+                           <div class="bg-gray-300 dark:bg-gray-700/50 p-3 rounded-lg">
+                               <p class="text-xs text-gray-500">Período</p>
+                               <p class="font-bold text-sm">365 días</p>
+                           </div>
+                           <div class="bg-blue-500/10 p-3 rounded-lg">
+                               <p class="text-xs text-blue-400">Ganancia Diaria</p>
+                               <p class="font-bold text-sm text-blue-400">$5.250</p>
+                           </div>
+                           <div class="bg-green-500/10 p-3 rounded-lg">
+                               <p class="text-xs text-green-400">Ganancia Total</p>
+                               <p class="font-bold text-sm text-green-400">$1.916.250</p>
+                           </div>
+                        </div>
+                         <button class="buy-plan-btn mt-4 w-full p-3 bg-cyan-500 text-white font-bold rounded-lg hover:bg-cyan-600 transition-colors" data-price="150000" data-name="Premium" data-machine-name="Máquina de Café" data-daily-roi="5250" data-min-withdrawal="100000">Comprar Plan</button>
+                    </div>
+
+                </div>
+            </div>
+            <nav class="app-nav"></nav>
+        </section>
+        
+        <section id="historial-page" class="page hidden min-h-screen flex-col">
+            <div class="flex-grow p-4 pb-24">
+                <header class="flex items-center mb-6 relative">
+                    <a href="#dashboard" class="absolute left-0 p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700">
+                        <span class="material-symbols-outlined">arrow_back</span>
+                    </a>
+                    <h1 class="text-2xl font-bold text-center flex-grow">Historial de Movimientos</h1>
+                </header>
+                <div id="history-list" class="space-y-1 divide-y divide-gray-200 dark:divide-gray-700">
+                    <p class="text-center text-gray-500 dark:text-gray-400 py-8">Cargando historial...</p>
+                </div>
+            </div>
+            <nav class="app-nav"></nav>
+        </section>
+
+        <section id="depositar-page" class="page hidden flex-col items-center min-h-screen p-4">
+             <div class="w-full max-w-md">
+                <header class="flex items-center mb-6 relative">
+                    <a href="#dashboard" class="absolute left-0 p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700">
+                        <span class="material-symbols-outlined">arrow_back</span>
+                    </a>
+                    <h1 class="text-2xl font-bold text-center flex-grow">Depositar vía Nequi</h1>
+                </header>
+                <div class="w-full bg-gray-200 dark:bg-gray-800 rounded-2xl p-6 text-center">
+                    <p class="text-gray-600 dark:text-gray-400 mb-4">Escanea el código para realizar tu depósito de forma segura.</p>
+                    <img src="https://i.ibb.co/L1pD1YV/neqi-qr-code-placeholder.png" alt="Código QR de Nequi" class="w-64 h-64 mx-auto rounded-lg mb-4 border-4 border-white dark:border-gray-700">
+                    <p class="font-semibold text-lg mb-1">Monto mínimo: $50.000 COP</p>
+                    <p class="text-sm text-gray-500 mb-6">Una vez hecho el pago, ingresa los datos a continuación.</p>
+                     <form id="deposit-form" class="space-y-4">
+                        <input type="number" id="deposit-amount" min="50000" placeholder="Valor depositado" class="w-full p-4 bg-gray-100 dark:bg-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-500" required>
+                        <input type="text" placeholder="Número de comprobante" class="w-full p-4 bg-gray-100 dark:bg-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-500" required>
+                        <button type="submit" class="w-full p-4 bg-cyan-500 text-white font-bold rounded-lg hover:bg-cyan-600 transition-colors">Confirmar Depósito</button>
+                    </form>
+                </div>
+            </div>
+        </section>
+        
+        <section id="retirar-page" class="page hidden flex-col items-center min-h-screen p-4">
+             <div class="w-full max-w-md">
+                <header class="flex items-center mb-6 relative">
+                    <a href="#dashboard" class="absolute left-0 p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700">
+                        <span class="material-symbols-outlined">arrow_back</span>
+                    </a>
+                    <h1 class="text-2xl font-bold text-center flex-grow">Retirar a Nequi</h1>
+                </header>
+                <div class="w-full bg-gray-200 dark:bg-gray-800 rounded-2xl p-6">
+                     <p class="text-center text-gray-600 dark:text-gray-400 mb-6">El dinero se enviará a tu número de celular registrado.</p>
+                     <div class="mb-6 p-4 bg-gray-100 dark:bg-gray-900 rounded-lg text-center">
+                         <p class="text-sm text-gray-500">Tu número Nequi</p>
+                         <p id="user-nequi-number" class="text-lg font-bold tracking-widest">+57 300 123 4567</p>
+                     </div>
+                     <form id="withdraw-form" class="space-y-4">
+                        <input type="number" id="withdraw-amount" min="10000" placeholder="Monto a retirar" class="w-full p-4 bg-gray-100 dark:bg-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-500" required>
+                        <p class="text-xs text-center text-gray-500 dark:text-gray-400 mt-2">Mínimo de retiro actual: <span id="min-withdrawal-display" class="font-bold">$10.000</span></p>
+                        <button type="submit" class="w-full p-4 bg-cyan-500 text-white font-bold rounded-lg hover:bg-cyan-600 transition-colors">Solicitar Retiro</button>
+                    </form>
+                </div>
+            </div>
+        </section>
+        
+        <section id="perfil-page" class="page hidden min-h-screen flex-col">
+            <div class="flex-grow p-4 pb-24">
+                <header class="text-center mb-6">
+                    <h1 class="text-2xl font-bold">Perfil</h1>
+                </header>
+                <div class="flex flex-col items-center gap-4 mb-8">
+                    <img src="https://i.pravatar.cc/150?u=carlos" alt="Avatar" class="h-32 w-32 rounded-full border-4 border-cyan-500">
+                    <div class="text-center">
+                        <p id="user-name-profile" class="text-2xl font-bold">Carlos López</p>
+                        <p id="user-email-profile" class="text-base text-gray-500">carlos.lopez@email.com</p>
+                    </div>
+                </div>
+                <div class="space-y-4">
+                    <h2 class="text-lg font-bold px-2 text-gray-600 dark:text-gray-400">Ajustes</h2>
+                    <a href="#editar-perfil" id="edit-profile-link" class="flex items-center gap-4 rounded-lg p-4 bg-gray-200 dark:bg-gray-800 hover:bg-gray-300 dark:hover:bg-gray-700 transition-colors">
+                        <span class="material-symbols-outlined text-cyan-500">person</span>
+                        <span class="flex-1 font-semibold">Editar Información</span>
+                        <span class="material-symbols-outlined text-gray-400">chevron_right</span>
+                    </a>
+                    <a href="#seguridad" class="flex items-center gap-4 rounded-lg p-4 bg-gray-200 dark:bg-gray-800 hover:bg-gray-300 dark:hover:bg-gray-700 transition-colors">
+                        <span class="material-symbols-outlined text-cyan-500">shield</span>
+                        <span class="flex-1 font-semibold">Seguridad y Contraseña</span>
+                        <span class="material-symbols-outlined text-gray-400">chevron_right</span>
+                    </a>
+                    <div class="flex items-center gap-4 rounded-lg p-4 bg-gray-200 dark:bg-gray-800">
+                         <span class="material-symbols-outlined text-cyan-500">dark_mode</span>
+                         <span class="flex-1 font-semibold">Modo Oscuro</span>
+                         <label class="relative inline-flex items-center cursor-pointer">
+                           <input type="checkbox" id="dark-mode-toggle" class="sr-only peer">
+                           <div class="w-11 h-6 bg-gray-400 peer-focus:outline-none rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-cyan-600"></div>
+                         </label>
+                    </div>
+                    <a href="#login" id="logout-button" class="flex items-center gap-4 rounded-lg p-4 bg-red-500/10 text-red-500 hover:bg-red-500/20 transition-colors">
+                        <span class="material-symbols-outlined">logout</span>
+                        <span class="flex-1 font-semibold">Cerrar Sesión</span>
+                    </a>
+                </div>
+            </div>
+            <nav class="app-nav"></nav>
+        </section>
+
+        <section id="editar-perfil-page" class="page hidden flex-col items-center min-h-screen p-4">
+            <div class="w-full max-w-md">
+               <header class="flex items-center mb-6 relative">
+                   <a href="#perfil" class="absolute left-0 p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700">
+                       <span class="material-symbols-outlined">arrow_back</span>
+                   </a>
+                   <h1 class="text-2xl font-bold text-center flex-grow">Editar Perfil</h1>
+               </header>
+               <div class="w-full bg-gray-200 dark:bg-gray-800 rounded-2xl p-6">
+                    <form id="edit-profile-form" class="space-y-6">
+                        <div>
+                            <label class="text-sm font-semibold text-gray-600 dark:text-gray-400">Nombre Completo</label>
+                            <input type="text" value="Carlos López" class="w-full p-4 bg-gray-300 dark:bg-gray-700 rounded-lg mt-2 cursor-not-allowed" disabled>
+                        </div>
+                        <div>
+                            <label class="text-sm font-semibold text-gray-600 dark:text-gray-400">Correo Electrónico</label>
+                            <input type="email" value="carlos.lopez@email.com" class="w-full p-4 bg-gray-300 dark:bg-gray-700 rounded-lg mt-2 cursor-not-allowed" disabled>
+                        </div>
+                        <div>
+                            <label for="edit-username" class="text-sm font-semibold text-gray-600 dark:text-gray-400">Nombre de Usuario</label>
+                            <input type="text" id="edit-username" value="carlos_dev" class="w-full p-4 bg-gray-100 dark:bg-gray-700 rounded-lg mt-2 focus:outline-none focus:ring-2 focus:ring-cyan-500">
+                        </div>
+                         <div>
+                            <label for="edit-phone" class="text-sm font-semibold text-gray-600 dark:text-gray-400">Número de celular (Nequi)</label>
+                            <input type="tel" id="edit-phone" value="3001234567" class="w-full p-4 bg-gray-100 dark:bg-gray-700 rounded-lg mt-2 focus:outline-none focus:ring-2 focus:ring-cyan-500" required>
+                        </div>
+                       <button type="submit" class="w-full p-4 bg-cyan-500 text-white font-bold rounded-lg hover:bg-cyan-600 transition-colors">Guardar Cambios</button>
+                   </form>
+               </div>
+           </div>
+       </section>
+
+       <section id="seguridad-page" class="page hidden flex-col items-center min-h-screen p-4">
+             <div class="w-full max-w-md">
+                <header class="flex items-center mb-6 relative">
+                    <a href="#perfil" class="absolute left-0 p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700">
+                        <span class="material-symbols-outlined">arrow_back</span>
+                    </a>
+                    <h1 class="text-2xl font-bold text-center flex-grow">Seguridad y Contraseña</h1>
+                </header>
+                <div class="w-full bg-gray-200 dark:bg-gray-800 rounded-2xl p-6">
+                     <p class="text-center text-gray-600 dark:text-gray-400 mb-6">Actualiza tu contraseña para mantener tu cuenta segura.</p>
+                     
+                     <h2 class="text-lg font-bold mb-4">Cambiar Contraseña</h2>
+                     <form id="change-password-form" class="space-y-4">
+                        <input type="password" id="current-password" placeholder="Contraseña Actual" class="w-full p-4 bg-gray-100 dark:bg-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-500" required>
+                        <input type="password" id="new-password" placeholder="Nueva Contraseña" class="w-full p-4 bg-gray-100 dark:bg-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-500" required>
+                         <input type="password" id="confirm-password" placeholder="Confirmar Nueva Contraseña" class="w-full p-4 bg-gray-100 dark:bg-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-500" required>
+                        <button type="submit" class="w-full p-4 bg-cyan-500 text-white font-bold rounded-lg hover:bg-cyan-600 transition-colors">Guardar Nueva Contraseña</button>
+                    </form>
+                    
+                    <div class="mt-8 pt-4 border-t border-gray-300 dark:border-gray-700">
+                         <h2 class="text-lg font-bold mb-4">Otras Opciones de Seguridad</h2>
+                         <div class="flex items-center justify-between p-3 bg-gray-100 dark:bg-gray-700 rounded-lg">
+                             <span class="font-semibold">Notificaciones de Inicio de Sesión</span>
+                              <label class="relative inline-flex items-center cursor-pointer">
+                                   <input type="checkbox" checked class="sr-only peer">
+                                   <div class="w-11 h-6 bg-gray-400 peer-focus:outline-none rounded-full peer dark:bg-gray-600 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-cyan-600"></div>
+                             </label>
+                         </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </div>
+
+    <div id="notification-modal" class="hidden fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center p-4 z-50 transition-opacity duration-300">
+        <div id="modal-card" class="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-8 text-center max-w-sm w-full transform transition-transform duration-300 scale-95">
+            <div id="modal-icon" class="mb-4">
+                <div class="w-16 h-16 border-4 border-dashed rounded-full animate-spin border-cyan-500 mx-auto"></div>
+            </div>
+            <p id="modal-message" class="text-lg font-semibold text-gray-800 dark:text-gray-200"></p>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>

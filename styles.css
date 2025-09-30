@@ -1,0 +1,29 @@
+/* Importamos la fuente desde el HTML, aquí la aplicamos */
+body {
+    font-family: 'Manrope', sans-serif;
+}
+
+/* Clases para el menú de navegación activo */
+.nav-link.active {
+    color: #06b6d4; /* Este es el color cyan-500 de Tailwind */
+    font-weight: 700;
+}
+
+.nav-link.active .material-symbols-outlined {
+    /* Opcional: Rellena el ícono activo */
+    font-variation-settings: 'FILL' 1;
+}
+
+/* --- ACTUALIZACIÓN SOLICITADA --- */
+
+/* Ocultar las flechas (spin buttons) de los input[type="number"] en navegadores WebKit (Chrome, Safari) */
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+/* Ocultar las flechas (spin buttons) de los input[type="number"] en Firefox */
+input[type="number"] {
+    -moz-appearance: textfield;
+}
