@@ -8,7 +8,9 @@ document.addEventListener('DOMContentLoaded', () => {
         user: {
             name: 'Carlos López',
             email: 'carlos.lopez@email.com',
-            phone: '3001234567'
+            phone: '3001234567',
+            // NUEVO: URL del avatar (si no hay guardada, usa la predeterminada)
+            avatarUrl: localStorage.getItem('userAvatarUrl') || 'https://i.pravatar.cc/150?u=carlos' 
         }
     };
 
@@ -39,6 +41,14 @@ document.addEventListener('DOMContentLoaded', () => {
     const minWithdrawalDisplayEl = document.getElementById('min-withdrawal-display');
     const withdrawAmountInput = document.getElementById('withdraw-amount');
     const depositAmountInput = document.getElementById('deposit-amount');
+    
+    // NUEVO: Elementos de Avatar
+    const userAvatarProfileEl = document.getElementById('user-avatar-profile');
+    const avatarFileInput = document.getElementById('avatar-file-input');
+    
+    // NUEVO: Elementos de Referidos
+    const referralLinkInput = document.getElementById('referral-link-input');
+    const copyReferralLinkButton = document.getElementById('copy-referral-link');
     
     // --- ELEMENTOS DEL MODAL ---
     const modal = document.getElementById('notification-modal');
@@ -179,6 +189,11 @@ document.addEventListener('DOMContentLoaded', () => {
         userNameProfileEl.textContent = appState.user.name;
         userEmailProfileEl.textContent = appState.user.email;
         userNequiNumberEl.textContent = `+57 ${appState.user.phone}`;
+        
+        // NUEVO: Actualizar imagen de perfil
+        if (userAvatarProfileEl) {
+            userAvatarProfileEl.src = appState.user.avatarUrl; 
+        }
 
         // Actualizar mínimo de retiro basado en el plan de mayor valor
         let minWithdrawal = 10000;
@@ -231,6 +246,10 @@ document.addEventListener('DOMContentLoaded', () => {
                     if (type === 'success' && window.location.hash === '#seguridad') {
                         window.location.hash = '#perfil';
                     }
+                    // NUEVO: Añadido para el cambio de foto de perfil
+                    if (type === 'success' && window.location.hash === '#perfil' && modalMessage.textContent.includes('Foto de perfil')) {
+                        // No navegar, solo ocultar modal
+                    }
                 }, 300); 
             }, 1500);
         }
@@ -246,13 +265,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // --- LÓGICA DE NAVEGACIÓN ---
     const navigateTo = (hash) => {
-        // Se añade 'seguridad' a la lista de hashes que necesitan el estilo flex-col
+        // Se añade 'seguridad' y 'referidos' a la lista de hashes que necesitan el estilo flex-col
         const targetPageId = (hash.substring(1) || 'login') + '-page';
         pages.forEach(page => page.classList.add('hidden'));
         const targetPage = document.getElementById(targetPageId);
         if (targetPage) {
             targetPage.classList.remove('hidden');
-            if (['login-page', 'registro-page', 'recuperar-page', 'depositar-page', 'retirar-page', 'editar-perfil-page', 'historial-page', 'seguridad-page'].includes(targetPageId) || targetPage.classList.contains('flex-col')) { 
+            if (['login-page', 'registro-page', 'recuperar-page', 'depositar-page', 'retirar-page', 'editar-perfil-page', 'historial-page', 'seguridad-page', 'referidos-page'].includes(targetPageId) || targetPage.classList.contains('flex-col')) { 
                  targetPage.classList.add('flex');
             }
         }
@@ -277,8 +296,8 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     const updateNav = (hash) => {
-        // Se añade 'seguridad' para que el nav no se marque en esa página
-        const authPages = ['', '#login', '#registro', '#recuperar', '#depositar', '#retirar', '#editar-perfil', '#historial', '#seguridad'];
+        // Se añade 'seguridad', 'referidos', etc. para que el nav no se marque en esa página
+        const authPages = ['', '#login', '#registro', '#recuperar', '#depositar', '#retirar', '#editar-perfil', '#historial', '#seguridad', '#referidos'];
         const activeHash = authPages.includes(hash) ? '#dashboard' : hash;
         document.querySelectorAll('.nav-link').forEach(link => {
             link.classList.remove('active');
@@ -428,8 +447,50 @@ document.addEventListener('DOMContentLoaded', () => {
     if (editProfileForm) {
         editProfileForm.addEventListener('submit', (e) => {
             e.preventDefault();
+            // Simulación de actualización de datos de usuario si se editan aquí
+            // Por ahora, solo simula el éxito
             showModal('success', 'Información actualizada con éxito.');
             setTimeout(() => { window.location.hash = '#perfil'; }, 1500);
+        });
+    }
+
+    // NUEVO: Lógica para cambiar la foto de perfil
+    if (avatarFileInput) {
+        avatarFileInput.addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const newAvatarUrl = e.target.result;
+                    appState.user.avatarUrl = newAvatarUrl;
+                    localStorage.setItem('userAvatarUrl', newAvatarUrl);
+                    userAvatarProfileEl.src = newAvatarUrl; // Actualizar inmediatamente
+                    showModal('success', 'Foto de perfil actualizada.');
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+    }
+    
+    // NUEVO: Lógica para copiar el enlace de referido
+    if (copyReferralLinkButton) {
+        copyReferralLinkButton.addEventListener('click', () => {
+             // Usar la API de Clipboard
+            if (navigator.clipboard) {
+                navigator.clipboard.writeText(referralLinkInput.value).then(() => {
+                    showModal('success', '¡Enlace copiado al portapapeles!');
+                }).catch(err => {
+                    // Fallback para navegadores antiguos o si hay error de permiso
+                    referralLinkInput.select();
+                    document.execCommand('copy');
+                    showModal('success', '¡Enlace copiado al portapapeles! (Método de respaldo)');
+                });
+            } else {
+                 // Fallback completo
+                referralLinkInput.select();
+                document.execCommand('copy');
+                showModal('success', '¡Enlace copiado al portapapeles! (Método de respaldo)');
+            }
         });
     }
 
@@ -439,6 +500,9 @@ document.addEventListener('DOMContentLoaded', () => {
         appState.balance = 0;
         appState.activePlans = [];
         appState.transactions = []; // Limpiar historial al cerrar sesión
+        // Opcional: limpiar el avatar guardado
+        localStorage.removeItem('userAvatarUrl');
+        appState.user.avatarUrl = 'https://i.pravatar.cc/150?u=carlos'; // Restaurar por defecto
         window.location.hash = '#login';
     });
 
