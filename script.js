@@ -77,20 +77,24 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     };
     
-    // NUEVO: Función para simular ganancias diarias (se ejecuta solo una vez al día simulado)
+    // --- MEJORA SOLICITADA: SUMATORIA DE GANANCIAS ---
     const simulateDailyEarnings = () => {
         const today = new Date().toDateString();
         // Solo simular si la última fecha no es hoy (para simular un ciclo de 24h)
         if (appState.lastEarningDate !== today) {
             let totalDailyEarning = 0;
+            
+            // 1. Sumar las ganancias diarias de todos los planes activos
             appState.activePlans.forEach(plan => {
-                // Log de ganancia por plan
-                logTransaction('Earning', plan.dailyROI, `Ganancia diaria por ${plan.machineName}`);
                 totalDailyEarning += plan.dailyROI;
             });
 
             if (totalDailyEarning > 0) {
+                // 2. Reflejar la suma total en el balance
                 appState.balance += totalDailyEarning;
+                
+                // 3. Registrar una sola transacción con la sumatoria total en el Historial
+                logTransaction('Earning', totalDailyEarning, `Ganancia diaria total de ${appState.activePlans.length} plan(es)`);
             }
             appState.lastEarningDate = today; // Actualizar la fecha de la última ganancia simulada
         }
@@ -529,4 +533,3 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 });
-
