@@ -77,17 +77,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     };
     
-    // NUEVO: Función para asignar avatar por defecto según el género (CAMBIO SOLICITADO)
-    const getAvatarUrlByGender = (gender) => {
-        // Usamos semillas determinísticas para avatares por defecto de pravatar.cc
-        if (gender === 'female') {
-            // Seed para avatar femenino
-            return 'https://i.pravatar.cc/150?u=user_female_default_seed'; 
-        }
-        // Por defecto o si es 'male'
-        return 'https://i.pravatar.cc/150?u=user_male_default_seed'; 
-    };
-
     // --- MEJORA SOLICITADA: SUMATORIA DE GANANCIAS ---
     const simulateDailyEarnings = () => {
         const today = new Date().toDateString();
@@ -248,8 +237,8 @@ document.addEventListener('DOMContentLoaded', () => {
         setTimeout(() => {
             modal.classList.add('opacity-100');
             modalCard.classList.remove('scale-95');
-        }, 10);
-        
+        }, 10); 
+
         if (type !== 'loading') {
             setTimeout(() => {
                 modal.classList.remove('opacity-100');
@@ -261,19 +250,19 @@ document.addEventListener('DOMContentLoaded', () => {
                     if (type === 'success' && (window.location.hash === '#depositar' || window.location.hash === '#retirar')) {
                         window.location.hash = '#dashboard';
                     }
-                    // Añadido para el cambio de contraseña
+                     // Añadido para el cambio de contraseña
                     if (type === 'success' && window.location.hash === '#seguridad') {
                         window.location.hash = '#perfil';
                     }
                     // NUEVO: Añadido para el cambio de foto de perfil
                     if (type === 'success' && window.location.hash === '#perfil' && modalMessage.textContent.includes('Foto de perfil')) {
-                         // No navegar, solo ocultar modal
+                        // No navegar, solo ocultar modal
                     }
-                }, 300);
+                }, 300); 
             }, 1500);
         }
     };
-
+    
     const hideModal = () => {
         modal.classList.remove('opacity-100');
         modalCard.classList.add('scale-95');
@@ -290,15 +279,16 @@ document.addEventListener('DOMContentLoaded', () => {
         const targetPage = document.getElementById(targetPageId);
         if (targetPage) {
             targetPage.classList.remove('hidden');
-            if (['login-page', 'registro-page', 'recuperar-page', 'depositar-page', 'retirar-page', 'editar-perfil-page', 'historial-page', 'seguridad-page', 'referidos-page'].includes(targetPageId) || targetPage.classList.contains('flex-col')) {
-                targetPage.classList.add('flex');
+            if (['login-page', 'registro-page', 'recuperar-page', 'depositar-page', 'retirar-page', 'editar-perfil-page', 'historial-page', 'seguridad-page', 'referidos-page'].includes(targetPageId) || targetPage.classList.contains('flex-col')) { 
+                 targetPage.classList.add('flex');
             }
         }
-
+        
         // NUEVO: Cargar el historial si vamos a la página de historial
         if (hash === '#historial') {
             renderHistory();
         }
+
         updateNav(hash);
     };
 
@@ -307,317 +297,202 @@ document.addEventListener('DOMContentLoaded', () => {
         const navHTML = `
             <div class="fixed bottom-0 left-0 right-0 bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm border-t border-gray-200 dark:border-gray-700 flex justify-around p-2">
                 <a href="#dashboard" class="nav-link flex flex-col items-center text-gray-500 dark:text-gray-400 p-2"><span class="material-symbols-outlined">home</span><span class="text-xs">Inicio</span></a>
-                <a href="#planes" class="nav-link flex flex-col items-center text-gray-500 dark:text-gray-400 p-2"><span class="material-symbols-outlined">handshake</span><span class="text-xs">Planes</span></a>
-                <a href="#depositar" class="nav-link flex flex-col items-center text-gray-500 dark:text-gray-400 p-2"><span class="material-symbols-outlined">account_balance_wallet</span><span class="text-xs">Depositar</span></a>
-                <a href="#retirar" class="nav-link flex flex-col items-center text-gray-500 dark:text-gray-400 p-2"><span class="material-symbols-outlined">payments</span><span class="text-xs">Retirar</span></a>
+                <a href="#planes" class="nav-link flex flex-col items-center text-gray-500 dark:text-gray-400 p-2"><span class="material-symbols-outlined">analytics</span><span class="text-xs">Planes</span></a>
                 <a href="#perfil" class="nav-link flex flex-col items-center text-gray-500 dark:text-gray-400 p-2"><span class="material-symbols-outlined">person</span><span class="text-xs">Perfil</span></a>
-            </div>
-        `;
-        document.querySelector('.app-nav').innerHTML = navHTML;
+            </div>`;
+        document.querySelectorAll('.app-nav').forEach(nav => { nav.innerHTML = navHTML; });
     };
-    
-    const updateNav = (currentHash) => {
+
+    const updateNav = (hash) => {
+        // Se añade 'seguridad', 'referidos', etc. para que el nav no se marque en esa página
+        const authPages = ['', '#login', '#registro', '#recuperar', '#depositar', '#retirar', '#editar-perfil', '#historial', '#seguridad', '#referidos'];
+        const activeHash = authPages.includes(hash) ? '#dashboard' : hash;
         document.querySelectorAll('.nav-link').forEach(link => {
             link.classList.remove('active');
-            if (link.getAttribute('href') === currentHash) {
-                link.classList.add('active');
-            }
+            if (link.getAttribute('href') === activeHash) { link.classList.add('active'); }
         });
     };
-
-    // Inicializar navegación y escuchar cambios de hash
+    
     createNav();
     window.addEventListener('hashchange', () => navigateTo(window.location.hash));
-    navigateTo(window.location.hash); 
+    navigateTo(window.location.hash || '#login');
 
-
-    // --- MANEJADORES DE FORMULARIOS Y EVENTOS ---
-
-    // Manejador de Login (Simulado)
+    // --- LÓGICA DE AUTENTICACIÓN Y FORMULARIOS ---
     loginForm.addEventListener('submit', (e) => {
         e.preventDefault();
-        
         const email = loginEmailInput.value;
         const password = loginPasswordInput.value;
+        
+        showModal('loading', 'Verificando credenciales...');
 
-        if (email === 'prueba@correo.com' && password === '12345') {
-            showModal('loading', 'Iniciando sesión...');
-            
-            // Simulación de carga de datos de usuario (Mantener el avatar si ya está en localStorage)
-            setTimeout(() => {
-                appState.user.name = 'Carlos López';
-                appState.user.email = 'prueba@correo.com';
-                appState.user.phone = '3001234567';
-                appState.balance = 150000;
-                appState.transactions = [
-                    { id: 1, date: "25/10/2025, 10:30", type: "Deposit", amount: 100000, description: "Depósito inicial" },
-                    { id: 2, date: "26/10/2025, 12:00", type: "Purchase", amount: 30000, description: "Compra Plan Principiante" },
-                    { id: 3, date: "27/10/2025, 18:00", type: "Earning", amount: 1050, description: "Ganancia diaria total de 1 plan(es)" },
-                ];
-                appState.activePlans = [{
-                    price: 30000,
-                    name: 'Principiante',
-                    machineName: 'Máquina de Snacks I',
-                    dailyROI: 1050,
-                    minWithdrawal: 15000,
-                    purchaseDate: '26/10/2025',
-                    endDate: '03/02/2026' // 100 días después
-                }];
-
+        setTimeout(() => {
+            hideModal(); // Ocultar el modal de carga
+            if (email === 'prueba@correo.com' && password === '12345') {
+                showModal('success', '¡Inicio de sesión exitoso!');
                 updateUI();
-                hideModal();
-                showModal('success', '¡Bienvenido de nuevo!');
-                window.location.hash = '#dashboard';
-            }, 1000); 
+                // Navegar al dashboard inmediatamente después del éxito
+                setTimeout(() => { 
+                    window.location.hash = '#dashboard';
+                }, 300); // Pequeño retraso para que el usuario vea el modal de éxito
+            } else {
+                showModal('error', 'Correo o contraseña incorrectos.');
+            }
+        }, 1000); // Se mantiene este setTimeout para simular el tiempo de respuesta del servidor (1 segundo).
+    });
+    
+    registerForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        showModal('success', '¡Registro completado!');
+        setTimeout(() => { window.location.hash = '#login'; }, 1500);
+    });
+    
+    recoverForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        showModal('success', 'Enlace de recuperación enviado.');
+         setTimeout(() => { window.location.hash = '#login'; }, 1500);
+    });
+    
+    // Manejador del NUEVO formulario de cambio de contraseña
+    if (changePasswordForm) {
+         changePasswordForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const currentPass = document.getElementById('current-password').value;
+            const newPass = document.getElementById('new-password').value;
+            const confirmPass = document.getElementById('confirm-password').value;
+            
+            // Simulación de validación
+            if (newPass !== confirmPass) {
+                showModal('error', 'La nueva contraseña y la confirmación no coinciden.');
+                return;
+            }
+            if (newPass.length < 5) {
+                showModal('error', 'La nueva contraseña debe tener al menos 5 caracteres.');
+                return;
+            }
+            // Aquí se simularía la verificación de la contraseña actual con el backend
+            if (currentPass !== '12345') { 
+                showModal('error', 'Contraseña actual incorrecta.');
+                return;
+            }
 
-        } else {
-             showModal('error', 'Credenciales incorrectas.');
+            // Simulación de éxito
+            showModal('loading', 'Cambiando contraseña...');
+            setTimeout(() => {
+                // En una app real, aquí se actualizaría la contraseña en el servidor
+                showModal('success', 'Contraseña actualizada con éxito.');
+                changePasswordForm.reset();
+            }, 1500);
+        });
+    }
+    
+    // --- LÓGICA FINANCIERA ---
+    depositForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const amount = parseFloat(depositAmountInput.value);
+        if (isNaN(amount) || amount <= 0) {
+            showModal('error', 'Por favor, ingresa un monto válido.');
+            return;
+        }
+        appState.balance += amount;
+        logTransaction('Deposit', amount, 'Depósito confirmado vía Nequi'); // NUEVO: Log de depósito
+        updateUI();
+        showModal('success', 'Depósito confirmado. El saldo ha sido actualizado.');
+        depositForm.reset();
+    });
+    
+    withdrawForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const amount = parseFloat(withdrawAmountInput.value);
+        let minWithdrawal = 10000;
+        if (appState.activePlans.length > 0) {
+            minWithdrawal = Math.max(...appState.activePlans.map(p => p.minWithdrawal));
+        }
+
+        if (isNaN(amount) || amount <= 0) {
+            showModal('error', 'Por favor, ingresa un monto válido.');
+            return;
+        }
+        if (amount < minWithdrawal) {
+             showModal('error', `El monto mínimo para retirar es ${formatCurrency(minWithdrawal)}.`);
+             return;
+        }
+        if (amount > appState.balance) {
+            showModal('error', 'No tienes saldo suficiente para este retiro.');
+            return;
+        }
+        appState.balance -= amount;
+        logTransaction('Withdrawal', amount, 'Retiro solicitado a Nequi'); // NUEVO: Log de retiro
+        updateUI();
+        showModal('success', 'Retiro solicitado con éxito.');
+        withdrawForm.reset();
+    });
+
+    plansContainer.addEventListener('click', (e) => {
+        if (e.target.classList.contains('buy-plan-btn')) {
+            const button = e.target;
+            const newPlan = {
+                price: parseFloat(button.dataset.price),
+                name: button.dataset.name,
+                machineName: button.dataset.machineName,
+                dailyROI: parseFloat(button.dataset.dailyRoi),
+                minWithdrawal: parseFloat(button.dataset.minWithdrawal),
+                purchaseDate: new Date().toLocaleDateString('es-CO')
+            };
+
+            if (newPlan.price > appState.balance) {
+                showModal('error', 'Saldo insuficiente para comprar este plan.');
+                return;
+            }
+
+            appState.balance -= newPlan.price;
+            appState.activePlans.push(newPlan);
+            logTransaction('Purchase', newPlan.price, `Compra del plan ${newPlan.machineName}`); // NUEVO: Log de compra
+            updateUI();
+            showModal('success', `¡Plan ${newPlan.name} comprado con éxito!`);
         }
     });
 
-    // --- MANEJADOR DEL FORMULARIO DE REGISTRO (CAMBIO SOLICITADO) ---
-    if (registerForm) {
-        registerForm.addEventListener('submit', (e) => {
+    if (editProfileForm) {
+        editProfileForm.addEventListener('submit', (e) => {
             e.preventDefault();
-
-            // Muestra modal de carga
-            showModal('loading', 'Registrando nuevo usuario...');
-
-            // Obtener valores del formulario de registro usando los IDs que añadimos en index.html
-            const name = document.getElementById('register-name').value;
-            const email = document.getElementById('register-email').value;
-            const phone = document.getElementById('register-phone').value;
-            const password = document.getElementById('register-password').value; 
-            // Obtener el género seleccionado
-            const selectedGenderEl = document.querySelector('input[name="gender"]:checked');
-            const gender = selectedGenderEl ? selectedGenderEl.value : 'male'; 
-
-            // Simulación de registro exitoso después de un pequeño retraso
-            setTimeout(() => {
-                // 1. ASIGNAR AVATAR SEGÚN GÉNERO
-                const defaultAvatar = getAvatarUrlByGender(gender);
-                localStorage.setItem('userAvatarUrl', defaultAvatar); 
-                
-                // 2. ACTUALIZAR ESTADO DE LA APLICACIÓN
-                appState.user.name = name;
-                appState.user.email = email;
-                appState.user.phone = phone;
-                appState.user.avatarUrl = defaultAvatar;
-                
-                // Resetear el estado de inversión para el nuevo usuario
-                appState.balance = 0;
-                appState.activePlans = [];
-                appState.transactions = [];
-                appState.lastEarningDate = new Date().toDateString();
-
-                // 3. Feedback y navegación
-                updateUI(); 
-                registerForm.reset();
-                hideModal(); // Oculta el modal de carga
-                showModal('success', `¡Registro exitoso! Bienvenido(a) ${name}.`); // Muestra modal de éxito
-                window.location.hash = '#dashboard';
-            }, 1000); // Simula un retraso de 1 segundo para la "operación" de registro
+            // Simulación de actualización de datos de usuario si se editan aquí
+            // Por ahora, solo simula el éxito
+            showModal('success', 'Información actualizada con éxito.');
+            setTimeout(() => { window.location.hash = '#perfil'; }, 1500);
         });
     }
 
-    // Manejador de Recuperar Contraseña (Simulado)
-    recoverForm.addEventListener('submit', (e) => {
-        e.preventDefault();
-        showModal('loading', 'Enviando enlace...');
-        setTimeout(() => {
-            recoverForm.reset();
-            showModal('success', '¡Enlace de recuperación enviado a su correo!');
-        }, 1500);
-    });
+    // Lógica MEJORADA para cambiar la foto de perfil (Más fiable en móviles y persistente)
+    if (avatarFileInput) {
+        avatarFileInput.addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            if (file) {
+                // 1. Usar URL.createObjectURL para previsualización inmediata y rápida (SOLUCIÓN MÓVIL)
+                const objectUrl = URL.createObjectURL(file);
+                userAvatarProfileEl.src = objectUrl; // Actualiza el DOM inmediatamente
+                
+                // 2. Usar FileReader para obtener la Data URL (Base64) y guardarla en localStorage (PERSISTENCIA/CACHE)
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const dataUrl = e.target.result;
+                    appState.user.avatarUrl = dataUrl;
+                    localStorage.setItem('userAvatarUrl', dataUrl); // <-- GUARDA LA IMAGEN EN CACHÉ DEL NAVEGADOR
+                    
+                    // Limpiar la URL temporal de objeto después de guardar la data
+                    URL.revokeObjectURL(objectUrl);
 
-    // Manejador de Depositar Fondos (Simulado)
-    depositForm.addEventListener('submit', (e) => {
-        e.preventDefault();
-        const amount = parseInt(depositAmountInput.value);
-        const receipt = document.getElementById('deposit-receipt').files[0];
-
-        if (amount < 10000) {
-             showModal('error', 'El monto mínimo de depósito es $10.000');
-             return;
-        }
-
-        if (!receipt) {
-             showModal('error', 'Debe adjuntar el comprobante de pago.');
-             return;
-        }
-
-        showModal('loading', 'Confirmando depósito...');
-        
-        // Simulación de procesamiento de depósito
-        setTimeout(() => {
-            // Asumiendo que el depósito es aprobado inmediatamente
-            appState.balance += amount;
-            logTransaction('Deposit', amount, 'Depósito de fondos');
-            updateUI();
-            depositForm.reset();
-            hideModal();
-            showModal('success', `¡Depósito de ${formatCurrency(amount)} confirmado con éxito!`);
-            // La navegación al dashboard ocurre dentro de showModal en caso de éxito
-        }, 2000); 
-    });
+                    showModal('success', 'Foto de perfil actualizada.');
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+    }
     
-     // Manejador de Retirar Fondos (Simulado)
-    withdrawForm.addEventListener('submit', (e) => {
-        e.preventDefault();
-        const amount = parseInt(withdrawAmountInput.value);
-        let minWithdrawal = 10000;
-        if (appState.activePlans.length > 0) {
-            minWithdrawal = Math.max(...appState.activePlans.map(plan => plan.minWithdrawal));
-        }
-
-        if (amount < minWithdrawal) {
-             showModal('error', `El monto mínimo de retiro es ${formatCurrency(minWithdrawal)}.`);
-             return;
-        }
-        
-         if (amount > appState.balance) {
-             showModal('error', 'Saldo insuficiente para realizar el retiro.');
-             return;
-        }
-
-        showModal('loading', 'Procesando retiro...');
-        
-        // Simulación de procesamiento de retiro
-        setTimeout(() => {
-            // Simulación de que el retiro es aprobado
-            appState.balance -= amount;
-            logTransaction('Withdrawal', amount, 'Solicitud de retiro');
-            updateUI();
-            withdrawForm.reset();
-            hideModal();
-            showModal('success', `¡Retiro de ${formatCurrency(amount)} solicitado! Recibirás el pago en Nequi pronto.`);
-            // La navegación al dashboard ocurre dentro de showModal en caso de éxito
-        }, 2000); 
-    });
-
-    // Manejador de Compra de Plan (Simulado)
-    plansContainer.addEventListener('click', (e) => {
-        const button = e.target.closest('.buy-plan-btn');
-        if (!button) return;
-
-        const price = parseInt(button.dataset.price);
-        const name = button.dataset.name;
-        const machineName = button.dataset.machineName;
-        const dailyRoi = parseInt(button.dataset.dailyRoi);
-        const minWithdrawal = parseInt(button.dataset.minWithdrawal);
-
-        if (appState.balance < price) {
-            showModal('error', `Saldo insuficiente. Necesitas ${formatCurrency(price)} para comprar el plan ${name}.`);
-            return;
-        }
-        
-        showModal('loading', `Comprando plan ${name}...`);
-
-        setTimeout(() => {
-            // Proceso de compra exitoso
-            appState.balance -= price;
-            
-            const newPlan = {
-                price: price,
-                name: name,
-                machineName: machineName,
-                dailyROI: dailyRoi,
-                minWithdrawal: minWithdrawal,
-                purchaseDate: new Date().toLocaleDateString('es-CO'),
-                // No se incluye endDate por simplicidad en la simulación
-            };
-            appState.activePlans.push(newPlan);
-            logTransaction('Purchase', price, `Compra de plan ${name}`);
-            
-            updateUI();
-            hideModal();
-            showModal('success', `¡Felicidades! Has comprado el plan ${name}.`);
-            window.location.hash = '#dashboard';
-        }, 1000);
-    });
-    
-    // Manejador para Editar Perfil (Simulado)
-    editProfileForm.addEventListener('submit', (e) => {
-        e.preventDefault();
-        
-        const newName = document.getElementById('edit-name').value;
-        const newEmail = document.getElementById('edit-email').value;
-        const newPhone = document.getElementById('edit-phone').value;
-        
-        showModal('loading', 'Guardando cambios...');
-
-        setTimeout(() => {
-            appState.user.name = newName;
-            appState.user.email = newEmail;
-            appState.user.phone = newPhone;
-            
-            updateUI();
-            editProfileForm.reset();
-            hideModal();
-            showModal('success', 'Información actualizada con éxito.');
-            window.location.hash = '#perfil';
-        }, 1000);
-    });
-
-    // Manejador para Cambiar Contraseña (Simulado)
-    changePasswordForm.addEventListener('submit', (e) => {
-        e.preventDefault();
-        
-        const currentPassword = document.getElementById('current-password').value;
-        const newPassword = document.getElementById('new-password').value;
-        const confirmNewPassword = document.getElementById('confirm-new-password').value;
-
-        if (currentPassword !== '12345') { // Simulación de validación
-             showModal('error', 'Contraseña actual incorrecta.');
-             return;
-        }
-
-        if (newPassword.length < 5) {
-             showModal('error', 'La nueva contraseña debe tener al menos 5 caracteres.');
-             return;
-        }
-        
-        if (newPassword !== confirmNewPassword) {
-             showModal('error', 'La nueva contraseña y la confirmación no coinciden.');
-             return;
-        }
-        
-        showModal('loading', 'Cambiando contraseña...');
-
-        setTimeout(() => {
-            // En un sistema real, aquí se actualizaría la contraseña del usuario
-            changePasswordForm.reset();
-            hideModal();
-            showModal('success', 'Contraseña cambiada con éxito.');
-            // La navegación se maneja dentro de showModal
-        }, 1000);
-    });
-
-    // Manejador para cambiar la foto de perfil (Simulado)
-    avatarFileInput.addEventListener('change', (e) => {
-        const file = e.target.files[0];
-        if (file) {
-            showModal('loading', 'Subiendo foto de perfil...');
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                // Simulación de carga y guardado
-                setTimeout(() => {
-                    const newAvatarUrl = e.target.result;
-                    localStorage.setItem('userAvatarUrl', newAvatarUrl);
-                    appState.user.avatarUrl = newAvatarUrl;
-                    updateUI(); 
-                    hideModal();
-                    showModal('success', 'Foto de perfil actualizada con éxito.');
-                }, 1000);
-            };
-            reader.readAsDataURL(file);
-        }
-    });
-
-    if (copyReferralLinkButton && referralLinkInput) {
+    // NUEVO: Lógica para copiar el enlace de referido
+    if (copyReferralLinkButton) {
         copyReferralLinkButton.addEventListener('click', () => {
-             // Intenta usar la API moderna de portapapeles
-            if (navigator.clipboard && window.isSecureContext) {
+             // Usar la API de Clipboard
+            if (navigator.clipboard) {
                 navigator.clipboard.writeText(referralLinkInput.value).then(() => {
                     showModal('success', '¡Enlace copiado al portapapeles!');
                 }).catch(err => {
