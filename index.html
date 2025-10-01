@@ -39,11 +39,25 @@
                 <h1 class="text-4xl font-bold text-cyan-500 mb-4">Crear Cuenta</h1>
                 <p class="text-gray-600 dark:text-gray-400 mb-8">Completa tus datos para empezar.</p>
                 <form id="register-form" class="space-y-6">
-                    <input type="text" placeholder="Nombre completo" class="w-full p-4 bg-gray-200 dark:bg-gray-800 rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-500" required>
-                    <input type="email" placeholder="Correo electrónico" class="w-full p-4 bg-gray-200 dark:bg-gray-800 rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-500" required>
-                    <input type="tel" placeholder="Número de celular (Nequi)" class="w-full p-4 bg-gray-200 dark:bg-gray-800 rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-500" required>
-                    <input type="password" placeholder="Contraseña" class="w-full p-4 bg-gray-200 dark:bg-gray-800 rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-500" required>
-                    <input type="text" placeholder="ID de Referido (Opcional)" class="w-full p-4 bg-gray-200 dark:bg-gray-800 rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-500">
+                    <input type="text" id="register-name" placeholder="Nombre completo" class="w-full p-4 bg-gray-200 dark:bg-gray-800 rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-500" required>
+                    <input type="email" id="register-email" placeholder="Correo electrónico" class="w-full p-4 bg-gray-200 dark:bg-gray-800 rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-500" required>
+                    <input type="tel" id="register-phone" placeholder="Número de celular (Nequi)" class="w-full p-4 bg-gray-200 dark:bg-gray-800 rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-500" required>
+                    
+                    <div class="flex flex-col text-left space-y-2">
+                        <label class="text-sm font-semibold text-gray-700 dark:text-gray-300">Género</label>
+                        <div class="flex space-x-6 p-4 bg-gray-200 dark:bg-gray-800 rounded-lg">
+                            <label for="gender-male" class="flex items-center space-x-2 cursor-pointer">
+                                <input type="radio" name="gender" value="male" id="gender-male" class="h-4 w-4 text-cyan-500 border-gray-300 focus:ring-cyan-500" required>
+                                <span>Masculino</span>
+                            </label>
+                            <label for="gender-female" class="flex items-center space-x-2 cursor-pointer">
+                                <input type="radio" name="gender" value="female" id="gender-female" class="h-4 w-4 text-cyan-500 border-gray-300 focus:ring-cyan-500">
+                                <span>Femenino</span>
+                            </label>
+                        </div>
+                    </div>
+                    <input type="password" id="register-password" placeholder="Contraseña" class="w-full p-4 bg-gray-200 dark:bg-gray-800 rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-500" required>
+                    <input type="text" id="register-referral" placeholder="ID de Referido (Opcional)" class="w-full p-4 bg-gray-200 dark:bg-gray-800 rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-500">
                     <button type="submit" class="w-full p-4 bg-cyan-500 text-white font-bold rounded-lg hover:bg-cyan-600 transition-colors">Registrarse</button>
                 </form>
                 <div class="mt-6 text-center">
@@ -282,16 +296,16 @@
                         </div>
                          <button class="buy-plan-btn mt-4 w-full p-3 bg-cyan-500 text-white font-bold rounded-lg hover:bg-cyan-600 transition-colors" data-price="100000" data-name="Gold" data-machine-name="Máquina de Dulces" data-daily-roi="3500" data-min-withdrawal="50000">Comprar Plan</button>
                     </div>
-                    
+
                     <div class="bg-gray-200 dark:bg-gray-800 rounded-2xl p-4 shadow-lg flex flex-col">
                         <div class="flex gap-4">
-                            <img src="https://images.unsplash.com/photo-1563200923-a170889e4726?w=500&q=80" alt="Máquina de Juegos" class="w-24 h-24 rounded-lg object-cover">
+                            <img src="https://images.unsplash.com/photo-1517436098048-18e329068037?w=500&q=80" alt="Máquina de Popcorn" class="w-24 h-24 rounded-lg object-cover">
                             <div class="flex-1">
                                 <h2 class="font-bold text-lg">Plan Platinum</h2>
-                                <p class="text-sm text-cyan-500 font-semibold">Inversión Mayor</p>
+                                <p class="text-sm text-cyan-500 font-semibold">Inversión Premium</p>
                                 <div class="flex mt-2 space-x-2">
                                     <span class="bg-orange-500/20 text-orange-500 text-xs font-bold px-2 py-1 rounded-full">3.5% ROI</span>
-                                    <span class="bg-yellow-500/20 text-yellow-500 text-xs font-bold px-2 py-1 rounded-full">VIP 3</span>
+                                    <span class="bg-yellow-500/20 text-yellow-500 text-xs font-bold px-2 py-1 rounded-full">VIP 2</span>
                                 </div>
                             </div>
                         </div>
@@ -302,7 +316,7 @@
                            </div>
                            <div class="bg-gray-300 dark:bg-gray-700/50 p-3 rounded-lg">
                                <p class="text-xs text-gray-500">Período</p>
-                               <p class="font-bold text-sm">200 días</p>
+                               <p class="font-bold text-sm">300 días</p>
                            </div>
                            <div class="bg-blue-500/10 p-3 rounded-lg">
                                <p class="text-xs text-blue-400">Ganancia Diaria</p>
@@ -310,238 +324,226 @@
                            </div>
                            <div class="bg-green-500/10 p-3 rounded-lg">
                                <p class="text-xs text-green-400">Ganancia Total</p>
-                               <p class="font-bold text-sm text-green-400">$1.400.000</p>
+                               <p class="font-bold text-sm text-green-400">$2.100.000</p>
                            </div>
                         </div>
-                         <button class="buy-plan-btn mt-4 w-full p-3 bg-cyan-500 text-white font-bold rounded-lg hover:bg-cyan-600 transition-colors" data-price="200000" data-name="Platinum" data-machine-name="Máquina de Juegos" data-daily-roi="7000" data-min-withdrawal="100000">Comprar Plan</button>
+                         <button class="buy-plan-btn mt-4 w-full p-3 bg-cyan-500 text-white font-bold rounded-lg hover:bg-cyan-600 transition-colors" data-price="200000" data-name="Platinum" data-machine-name="Máquina de Popcorn" data-daily-roi="7000" data-min-withdrawal="80000">Comprar Plan</button>
                     </div>
 
                     <div class="bg-gray-200 dark:bg-gray-800 rounded-2xl p-4 shadow-lg flex flex-col">
                         <div class="flex gap-4">
-                            <img src="https://images.unsplash.com/photo-1582211598731-50e5860d7031?w=500&q=80" alt="Máquina de Vending" class="w-24 h-24 rounded-lg object-cover">
+                            <img src="https://images.unsplash.com/photo-1549412170-c78572421941?w=500&q=80" alt="Máquina de Juguetes" class="w-24 h-24 rounded-lg object-cover">
                             <div class="flex-1">
-                                <h2 class="font-bold text-lg">Plan Diamond</h2>
-                                <p class="text-sm text-cyan-500 font-semibold">Inversión Élite</p>
+                                <h2 class="font-bold text-lg">Plan Diamante</h2>
+                                <p class="text-sm text-cyan-500 font-semibold">Inversión Máxima</p>
                                 <div class="flex mt-2 space-x-2">
                                     <span class="bg-orange-500/20 text-orange-500 text-xs font-bold px-2 py-1 rounded-full">3.5% ROI</span>
-                                    <span class="bg-yellow-500/20 text-yellow-500 text-xs font-bold px-2 py-1 rounded-full">VIP 4</span>
+                                    <span class="bg-yellow-500/20 text-yellow-500 text-xs font-bold px-2 py-1 rounded-full">VIP 3</span>
                                 </div>
                             </div>
                         </div>
                         <div class="grid grid-cols-2 gap-4 mt-4 text-center">
                            <div class="bg-cyan-500/20 p-3 rounded-lg">
                                <p class="text-xs text-cyan-500">Precio Equipo</p>
-                               <p class="font-bold text-sm text-cyan-500">$300.000</p>
+                               <p class="font-bold text-sm text-cyan-500">$500.000</p>
                            </div>
                            <div class="bg-gray-300 dark:bg-gray-700/50 p-3 rounded-lg">
                                <p class="text-xs text-gray-500">Período</p>
-                               <p class="font-bold text-sm">200 días</p>
+                               <p class="font-bold text-sm">300 días</p>
                            </div>
                            <div class="bg-blue-500/10 p-3 rounded-lg">
                                <p class="text-xs text-blue-400">Ganancia Diaria</p>
-                               <p class="font-bold text-sm text-blue-400">$10.500</p>
+                               <p class="font-bold text-sm text-blue-400">$17.500</p>
                            </div>
                            <div class="bg-green-500/10 p-3 rounded-lg">
                                <p class="text-xs text-green-400">Ganancia Total</p>
-                               <p class="font-bold text-sm text-green-400">$2.100.000</p>
+                               <p class="font-bold text-sm text-green-400">$5.250.000</p>
                            </div>
                         </div>
-                         <button class="buy-plan-btn mt-4 w-full p-3 bg-cyan-500 text-white font-bold rounded-lg hover:bg-cyan-600 transition-colors" data-price="300000" data-name="Diamond" data-machine-name="Máquina de Vending" data-daily-roi="10500" data-min-withdrawal="150000">Comprar Plan</button>
+                         <button class="buy-plan-btn mt-4 w-full p-3 bg-cyan-500 text-white font-bold rounded-lg hover:bg-cyan-600 transition-colors" data-price="500000" data-name="Diamante" data-machine-name="Máquina de Juguetes" data-daily-roi="17500" data-min-withdrawal="150000">Comprar Plan</button>
                     </div>
 
                 </div>
             </div>
             <nav class="app-nav"></nav>
+        </section>
+
+        <section id="depositar-page" class="page hidden flex flex-col items-center min-h-screen p-4">
+            <div class="w-full max-w-md text-center">
+                <header class="text-center mb-6">
+                    <a href="#dashboard" class="material-symbols-outlined text-3xl absolute top-4 left-4">arrow_back</a>
+                    <h1 class="text-2xl font-bold">Depositar Fondos</h1>
+                    <p class="text-gray-500 mt-1">Sigue las instrucciones para añadir saldo.</p>
+                </header>
+
+                <div class="bg-yellow-100 dark:bg-yellow-900/50 p-4 rounded-lg text-yellow-800 dark:text-yellow-300 mb-6 text-sm">
+                    ⚠️ Importante: Solo se acepta Nequi. El monto mínimo de depósito es **$10.000**.
+                </div>
+
+                <form id="deposit-form" class="space-y-6">
+                    <input type="number" id="deposit-amount" placeholder="Monto a Depositar (Mín. $10.000)" class="w-full p-4 bg-gray-200 dark:bg-gray-800 rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-500" required min="10000" step="1000">
+                    
+                    <div class="p-4 bg-gray-200 dark:bg-gray-800 rounded-lg text-left">
+                        <p class="text-sm font-semibold mb-2">Instrucciones de Pago (Nequi):</p>
+                        <div class="flex justify-between items-center bg-gray-300 dark:bg-gray-700 p-3 rounded-lg">
+                            <p class="font-bold text-lg">310 123 4567</p>
+                            <button type="button" onclick="navigator.clipboard.writeText('3101234567'); showModal('success', '¡Número copiado al portapapeles!');" class="p-2 bg-cyan-500 text-white rounded-lg hover:bg-cyan-600 transition-colors flex items-center">
+                                <span class="material-symbols-outlined text-xl">content_copy</span>
+                            </button>
+                        </div>
+                        <p class="text-xs text-gray-500 mt-2">Envía el dinero a este número Nequi y luego sube el comprobante.</p>
+                    </div>
+
+                    <input type="file" id="deposit-receipt" accept="image/*, application/pdf" class="w-full p-4 bg-gray-200 dark:bg-gray-800 rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-500" required>
+                    <button type="submit" class="w-full p-4 bg-cyan-500 text-white font-bold rounded-lg hover:bg-cyan-600 transition-colors">Confirmar Depósito</button>
+                </form>
+            </div>
+        </section>
+        
+         <section id="retirar-page" class="page hidden flex flex-col items-center min-h-screen p-4">
+            <div class="w-full max-w-md text-center">
+                <header class="text-center mb-6">
+                    <a href="#dashboard" class="material-symbols-outlined text-3xl absolute top-4 left-4">arrow_back</a>
+                    <h1 class="text-2xl font-bold">Retirar Ganancias</h1>
+                    <p class="text-gray-500 mt-1">Transfiere tu saldo a tu cuenta Nequi.</p>
+                </header>
+
+                <div class="bg-yellow-100 dark:bg-yellow-900/50 p-4 rounded-lg text-yellow-800 dark:text-yellow-300 mb-6 text-sm">
+                    Monto Mínimo de Retiro: <span id="min-withdrawal-display" class="font-bold">$10.000</span>.
+                </div>
+
+                <form id="withdraw-form" class="space-y-6">
+                    <input type="number" id="withdraw-amount" placeholder="Monto a Retirar" class="w-full p-4 bg-gray-200 dark:bg-gray-800 rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-500" required min="10000" step="1000">
+                    
+                    <div class="p-4 bg-gray-200 dark:bg-gray-800 rounded-lg text-left">
+                        <p class="text-sm font-semibold mb-2">Cuenta de Destino (Nequi):</p>
+                        <p id="user-nequi-number-withdraw" class="font-bold text-lg">+57 300 123 4567</p>
+                        <p class="text-xs text-gray-500 mt-2">El retiro será enviado al número de celular asociado a tu cuenta.</p>
+                    </div>
+
+                    <button type="submit" class="w-full p-4 bg-cyan-500 text-white font-bold rounded-lg hover:bg-cyan-600 transition-colors">Solicitar Retiro</button>
+                </form>
+            </div>
         </section>
         
         <section id="historial-page" class="page hidden min-h-screen flex-col">
             <div class="flex-grow p-4 pb-24">
-                <header class="flex items-center mb-6 relative">
-                    <a href="#dashboard" class="absolute left-0 p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700">
-                        <span class="material-symbols-outlined">arrow_back</span>
-                    </a>
-                    <h1 class="text-2xl font-bold text-center flex-grow">Historial de Movimientos</h1>
+                <header class="text-center mb-6">
+                    <a href="#dashboard" class="material-symbols-outlined text-3xl absolute top-4 left-4">arrow_back</a>
+                    <h1 class="text-2xl font-bold">Historial de Movimientos</h1>
+                    <p class="text-gray-500 mt-1">Tus depósitos, retiros y ganancias.</p>
                 </header>
-                <div id="history-list" class="space-y-1 divide-y divide-gray-200 dark:divide-gray-700">
-                    <p class="text-center text-gray-500 dark:text-gray-400 py-8">Cargando historial...</p>
-                </div>
+                <div id="history-list" class="space-y-2">
+                    </div>
             </div>
             <nav class="app-nav"></nav>
-        </section>
-
-        <section id="depositar-page" class="page hidden flex-col items-center min-h-screen p-4">
-             <div class="w-full max-w-md">
-                <header class="flex items-center mb-6 relative">
-                    <a href="#dashboard" class="absolute left-0 p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700">
-                        <span class="material-symbols-outlined">arrow_back</span>
-                    </a>
-                    <h1 class="text-2xl font-bold text-center flex-grow">Depositar vía Nequi</h1>
-                </header>
-                <div class="w-full bg-gray-200 dark:bg-gray-800 rounded-2xl p-6 text-center">
-                    <p class="text-gray-600 dark:text-gray-400 mb-4">Escanea el código para realizar tu depósito de forma segura.</p>
-                    <img src="https://i.ibb.co/L1pD1YV/neqi-qr-code-placeholder.png" alt="Código QR de Nequi" class="w-64 h-64 mx-auto rounded-lg mb-4 border-4 border-white dark:border-gray-700">
-                    <p class="font-semibold text-lg mb-1">Monto mínimo: $50.000 COP</p>
-                    <p class="text-sm text-gray-500 mb-6">Una vez hecho el pago, ingresa los datos a continuación.</p>
-                     <form id="deposit-form" class="space-y-4">
-                        <input type="number" id="deposit-amount" min="50000" placeholder="Valor depositado" class="w-full p-4 bg-gray-100 dark:bg-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-500" required>
-                        <input type="text" placeholder="Número de comprobante" class="w-full p-4 bg-gray-100 dark:bg-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-500" required>
-                        <button type="submit" class="w-full p-4 bg-cyan-500 text-white font-bold rounded-lg hover:bg-cyan-600 transition-colors">Confirmar Depósito</button>
-                    </form>
-                </div>
-            </div>
-        </section>
-        
-        <section id="retirar-page" class="page hidden flex-col items-center min-h-screen p-4">
-             <div class="w-full max-w-md">
-                <header class="flex items-center mb-6 relative">
-                    <a href="#dashboard" class="absolute left-0 p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700">
-                        <span class="material-symbols-outlined">arrow_back</span>
-                    </a>
-                    <h1 class="text-2xl font-bold text-center flex-grow">Retirar a Nequi</h1>
-                </header>
-                <div class="w-full bg-gray-200 dark:bg-gray-800 rounded-2xl p-6">
-                     <p class="text-center text-gray-600 dark:text-gray-400 mb-6">El dinero se enviará a tu número de celular registrado.</p>
-                     <div class="mb-6 p-4 bg-gray-100 dark:bg-gray-900 rounded-lg text-center">
-                         <p class="text-sm text-gray-500">Tu número Nequi</p>
-                         <p id="user-nequi-number" class="text-lg font-bold tracking-widest">+57 300 123 4567</p>
-                     </div>
-                     <form id="withdraw-form" class="space-y-4">
-                        <input type="number" id="withdraw-amount" min="10000" placeholder="Monto a retirar" class="w-full p-4 bg-gray-100 dark:bg-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-500" required>
-                        <p class="text-xs text-center text-gray-500 dark:text-gray-400 mt-2">Mínimo de retiro actual: <span id="min-withdrawal-display" class="font-bold">$10.000</span></p>
-                        <button type="submit" class="w-full p-4 bg-cyan-500 text-white font-bold rounded-lg hover:bg-cyan-600 transition-colors">Solicitar Retiro</button>
-                    </form>
-                </div>
-            </div>
         </section>
         
         <section id="perfil-page" class="page hidden min-h-screen flex-col">
-            <div class="flex-grow p-4 pb-24">
-                <header class="text-center mb-6">
-                    <h1 class="text-2xl font-bold">Perfil</h1>
+             <div class="flex-grow p-4 pb-24">
+                <header class="text-center mb-8">
+                    <a href="#dashboard" class="material-symbols-outlined text-3xl absolute top-4 left-4">arrow_back</a>
+                    <h1 class="text-2xl font-bold">Mi Perfil</h1>
                 </header>
-                <div class="flex flex-col items-center gap-4 mb-8">
-                    <div class="relative">
-                        <img id="user-avatar-profile" src="https://i.pravatar.cc/150?u=carlos" alt="Avatar" class="h-32 w-32 rounded-full border-4 border-cyan-500 object-cover">
+                
+                <div class="flex flex-col items-center mb-8">
+                    <div class="relative w-24 h-24 mb-4">
+                        <img id="user-avatar-profile" src="https://i.pravatar.cc/150?u=carlos" alt="Avatar del usuario" class="w-full h-full rounded-full object-cover border-4 border-cyan-500">
+                        <button onclick="document.getElementById('avatar-file-input').click();" class="absolute bottom-0 right-0 p-1 bg-cyan-500 text-white rounded-full hover:bg-cyan-600 transition-colors">
+                            <span class="material-symbols-outlined text-lg">edit</span>
+                        </button>
                         <input type="file" id="avatar-file-input" accept="image/*" class="hidden">
-                        <label for="avatar-file-input" class="absolute bottom-0 right-0 bg-cyan-500 text-white p-2 rounded-full cursor-pointer hover:bg-cyan-600 transition-colors border-2 border-white dark:border-gray-900">
-                            <span class="material-symbols-outlined text-base" style="font-size: 1rem;">photo_camera</span>
+                    </div>
+                    <h2 id="user-name-profile" class="text-xl font-bold">Carlos López</h2>
+                    <p id="user-email-profile" class="text-gray-500 dark:text-gray-400">carlos.lopez@email.com</p>
+                </div>
+                
+                <div class="space-y-4">
+                    <div class="bg-gray-200 dark:bg-gray-800 p-4 rounded-xl">
+                        <p class="text-sm text-gray-500">Número de Contacto (Nequi)</p>
+                        <p id="user-nequi-number" class="font-bold text-lg">+57 300 123 4567</p>
+                    </div>
+                    
+                    <a href="#editar-perfil" class="flex justify-between items-center bg-gray-200 dark:bg-gray-800 p-4 rounded-xl hover:bg-gray-300 dark:hover:bg-gray-700 transition-colors">
+                        <span class="font-semibold">Editar Información Personal</span>
+                        <span class="material-symbols-outlined text-cyan-500">chevron_right</span>
+                    </a>
+                    
+                    <a href="#seguridad" class="flex justify-between items-center bg-gray-200 dark:bg-gray-800 p-4 rounded-xl hover:bg-gray-300 dark:hover:bg-gray-700 transition-colors">
+                        <span class="font-semibold">Seguridad y Contraseña</span>
+                        <span class="material-symbols-outlined text-cyan-500">chevron_right</span>
+                    </a>
+
+                    <div class="flex justify-between items-center bg-gray-200 dark:bg-gray-800 p-4 rounded-xl">
+                        <span class="font-semibold">Modo Oscuro</span>
+                        <label class="relative inline-flex items-center cursor-pointer">
+                          <input type="checkbox" id="dark-mode-toggle" value="" class="sr-only peer">
+                          <div class="w-11 h-6 bg-gray-300 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-cyan-300 dark:peer-focus:ring-cyan-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border after:border-gray-300 after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-cyan-500"></div>
                         </label>
                     </div>
-                    <div class="text-center">
-                        <p id="user-name-profile" class="text-2xl font-bold">Carlos López</p>
-                        <p id="user-email-profile" class="text-base text-gray-500">carlos.lopez@email.com</p>
-                    </div>
-                </div>
-                <div class="space-y-4">
-                    <h2 class="text-lg font-bold px-2 text-gray-600 dark:text-gray-400">Ajustes</h2>
-                    <a href="#editar-perfil" id="edit-profile-link" class="flex items-center gap-4 rounded-lg p-4 bg-gray-200 dark:bg-gray-800 hover:bg-gray-300 dark:hover:bg-gray-700 transition-colors">
-                        <span class="material-symbols-outlined text-cyan-500">person</span>
-                        <span class="flex-1 font-semibold">Editar Información</span>
-                        <span class="material-symbols-outlined text-gray-400">chevron_right</span>
-                    </a>
-                    <a href="#seguridad" class="flex items-center gap-4 rounded-lg p-4 bg-gray-200 dark:bg-gray-800 hover:bg-gray-300 dark:hover:bg-gray-700 transition-colors">
-                        <span class="material-symbols-outlined text-cyan-500">shield</span>
-                        <span class="flex-1 font-semibold">Seguridad y Contraseña</span>
-                        <span class="material-symbols-outlined text-gray-400">chevron_right</span>
-                    </a>
-                    <div class="flex items-center gap-4 rounded-lg p-4 bg-gray-200 dark:bg-gray-800">
-                         <span class="material-symbols-outlined text-cyan-500">dark_mode</span>
-                         <span class="flex-1 font-semibold">Modo Oscuro</span>
-                         <label class="relative inline-flex items-center cursor-pointer">
-                           <input type="checkbox" id="dark-mode-toggle" class="sr-only peer">
-                           <div class="w-11 h-6 bg-gray-400 peer-focus:outline-none rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-cyan-600"></div>
-                         </label>
-                    </div>
-                    <a href="#login" id="logout-button" class="flex items-center gap-4 rounded-lg p-4 bg-red-500/10 text-red-500 hover:bg-red-500/20 transition-colors">
+
+                    <button id="logout-button" class="w-full text-left flex items-center space-x-2 text-red-500 font-bold bg-gray-200 dark:bg-gray-800 p-4 rounded-xl hover:bg-gray-300 dark:hover:bg-gray-700 transition-colors">
                         <span class="material-symbols-outlined">logout</span>
-                        <span class="flex-1 font-semibold">Cerrar Sesión</span>
-                    </a>
+                        <span>Cerrar Sesión</span>
+                    </button>
                 </div>
+
             </div>
             <nav class="app-nav"></nav>
         </section>
 
-        <section id="editar-perfil-page" class="page hidden flex-col items-center min-h-screen p-4">
-            <div class="w-full max-w-md">
-               <header class="flex items-center mb-6 relative">
-                   <a href="#perfil" class="absolute left-0 p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700">
-                       <span class="material-symbols-outlined">arrow_back</span>
-                   </a>
-                   <h1 class="text-2xl font-bold text-center flex-grow">Editar Perfil</h1>
-               </header>
-               <div class="w-full bg-gray-200 dark:bg-gray-800 rounded-2xl p-6">
-                    <form id="edit-profile-form" class="space-y-6">
-                        <div>
-                            <label class="text-sm font-semibold text-gray-600 dark:text-gray-400">Nombre Completo</label>
-                            <input type="text" value="Carlos López" class="w-full p-4 bg-gray-300 dark:bg-gray-700 rounded-lg mt-2 cursor-not-allowed" disabled>
-                        </div>
-                        <div>
-                            <label class="text-sm font-semibold text-gray-600 dark:text-gray-400">Correo Electrónico</label>
-                            <input type="email" value="carlos.lopez@email.com" class="w-full p-4 bg-gray-300 dark:bg-gray-700 rounded-lg mt-2 cursor-not-allowed" disabled>
-                        </div>
-                        <div>
-                            <label for="edit-username" class="text-sm font-semibold text-gray-600 dark:text-gray-400">Nombre de Usuario</label>
-                            <input type="text" id="edit-username" value="carlos_dev" class="w-full p-4 bg-gray-100 dark:bg-gray-700 rounded-lg mt-2 focus:outline-none focus:ring-2 focus:ring-cyan-500">
-                        </div>
-                         <div>
-                            <label for="edit-phone" class="text-sm font-semibold text-gray-600 dark:text-gray-400">Número de celular (Nequi)</label>
-                            <input type="tel" id="edit-phone" value="3001234567" class="w-full p-4 bg-gray-100 dark:bg-gray-700 rounded-lg mt-2 focus:outline-none focus:ring-2 focus:ring-cyan-500" required>
-                        </div>
-                       <button type="submit" class="w-full p-4 bg-cyan-500 text-white font-bold rounded-lg hover:bg-cyan-600 transition-colors">Guardar Cambios</button>
-                   </form>
-               </div>
-           </div>
-       </section>
-
-       <section id="seguridad-page" class="page hidden flex-col items-center min-h-screen p-4">
-             <div class="w-full max-w-md">
-                <header class="flex items-center mb-6 relative">
-                    <a href="#perfil" class="absolute left-0 p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700">
-                        <span class="material-symbols-outlined">arrow_back</span>
-                    </a>
-                    <h1 class="text-2xl font-bold text-center flex-grow">Seguridad y Contraseña</h1>
+         <section id="editar-perfil-page" class="page hidden flex flex-col items-center min-h-screen p-4">
+            <div class="w-full max-w-md text-center">
+                <header class="text-center mb-6">
+                    <a href="#perfil" class="material-symbols-outlined text-3xl absolute top-4 left-4">arrow_back</a>
+                    <h1 class="text-2xl font-bold">Editar Perfil</h1>
+                    <p class="text-gray-500 mt-1">Actualiza tu información personal.</p>
                 </header>
-                <div class="w-full bg-gray-200 dark:bg-gray-800 rounded-2xl p-6">
-                     <p class="text-center text-gray-600 dark:text-gray-400 mb-6">Actualiza tu contraseña para mantener tu cuenta segura.</p>
-                     
-                     <h2 class="text-lg font-bold mb-4">Cambiar Contraseña</h2>
-                     <form id="change-password-form" class="space-y-4">
-                        <input type="password" id="current-password" placeholder="Contraseña Actual" class="w-full p-4 bg-gray-100 dark:bg-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-500" required>
-                        <input type="password" id="new-password" placeholder="Nueva Contraseña" class="w-full p-4 bg-gray-100 dark:bg-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-500" required>
-                         <input type="password" id="confirm-password" placeholder="Confirmar Nueva Contraseña" class="w-full p-4 bg-gray-100 dark:bg-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-500" required>
-                        <button type="submit" class="w-full p-4 bg-cyan-500 text-white font-bold rounded-lg hover:bg-cyan-600 transition-colors">Guardar Nueva Contraseña</button>
-                    </form>
-                    
-                    <div class="mt-8 pt-4 border-t border-gray-300 dark:border-gray-700">
-                         <h2 class="text-lg font-bold mb-4">Otras Opciones de Seguridad</h2>
-                         <div class="flex items-center justify-between p-3 bg-gray-100 dark:bg-gray-700 rounded-lg">
-                             <span class="font-semibold">Notificaciones de Inicio de Sesión</span>
-                              <label class="relative inline-flex items-center cursor-pointer">
-                                   <input type="checkbox" checked class="sr-only peer">
-                                   <div class="w-11 h-6 bg-gray-400 peer-focus:outline-none rounded-full peer dark:bg-gray-600 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-cyan-600"></div>
-                             </label>
-                         </div>
-                    </div>
-                </div>
+                <form id="edit-profile-form" class="space-y-6">
+                    <input type="text" id="edit-name" placeholder="Nombre completo" class="w-full p-4 bg-gray-200 dark:bg-gray-800 rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-500" required>
+                    <input type="email" id="edit-email" placeholder="Correo electrónico" class="w-full p-4 bg-gray-200 dark:bg-gray-800 rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-500" required>
+                    <input type="tel" id="edit-phone" placeholder="Número de celular (Nequi)" class="w-full p-4 bg-gray-200 dark:bg-gray-800 rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-500" required>
+                    <button type="submit" class="w-full p-4 bg-cyan-500 text-white font-bold rounded-lg hover:bg-cyan-600 transition-colors">Guardar Cambios</button>
+                </form>
             </div>
         </section>
-        
-        <section id="referidos-page" class="page hidden flex-col items-center min-h-screen p-4">
-            <div class="w-full max-w-md">
-               <header class="flex items-center mb-6 relative">
-                   <a href="#dashboard" class="absolute left-0 p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700">
-                       <span class="material-symbols-outlined">arrow_back</span>
-                   </a>
-                   <h1 class="text-2xl font-bold text-center flex-grow">Mi Enlace de Referido</h1>
-               </header>
-               <div class="w-full bg-gray-200 dark:bg-gray-800 rounded-2xl p-6 text-center">
-                    <p class="text-gray-600 dark:text-gray-400 mb-6">Comparte este enlace con tus amigos para empezar a ganar comisiones.</p>
-                    
-                    <div class="mb-6 p-4 bg-gray-100 dark:bg-gray-900 rounded-lg">
-                        <p class="text-sm text-gray-500 mb-2">Tu Enlace Personal</p>
-                        <div class="flex items-center justify-between gap-4">
-                            <input type="text" id="referral-link-input" value="https://inversiones.app/ref/carlos_dev" 
-                                   class="flex-1 p-2 bg-transparent font-mono text-sm border border-gray-400 dark:border-gray-600 rounded-lg focus:outline-none" 
+
+        <section id="seguridad-page" class="page hidden flex flex-col items-center min-h-screen p-4">
+            <div class="w-full max-w-md text-center">
+                <header class="text-center mb-6">
+                    <a href="#perfil" class="material-symbols-outlined text-3xl absolute top-4 left-4">arrow_back</a>
+                    <h1 class="text-2xl font-bold">Seguridad</h1>
+                    <p class="text-gray-500 mt-1">Cambia tu contraseña.</p>
+                </header>
+                <form id="change-password-form" class="space-y-6">
+                    <input type="password" id="current-password" placeholder="Contraseña Actual" class="w-full p-4 bg-gray-200 dark:bg-gray-800 rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-500" required>
+                    <input type="password" id="new-password" placeholder="Nueva Contraseña" class="w-full p-4 bg-gray-200 dark:bg-gray-800 rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-500" required>
+                    <input type="password" id="confirm-new-password" placeholder="Confirmar Nueva Contraseña" class="w-full p-4 bg-gray-200 dark:bg-gray-800 rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-500" required>
+                    <button type="submit" class="w-full p-4 bg-cyan-500 text-white font-bold rounded-lg hover:bg-cyan-600 transition-colors">Cambiar Contraseña</button>
+                </form>
+            </div>
+        </section>
+
+         <section id="referidos-page" class="page hidden min-h-screen flex-col">
+            <div class="flex-grow p-4 pb-24">
+                 <header class="text-center mb-6">
+                    <a href="#dashboard" class="material-symbols-outlined text-3xl absolute top-4 left-4">arrow_back</a>
+                    <h1 class="text-2xl font-bold">Mis Referidos</h1>
+                    <p class="text-gray-500 mt-1">Invita a tus amigos y gana comisiones.</p>
+                </header>
+
+                <div class="w-full max-w-md mx-auto text-center">
+                    <div class="bg-gradient-to-br from-cyan-500 to-blue-600 rounded-2xl p-6 text-white shadow-lg mb-8">
+                        <p class="text-sm opacity-80">Comisiones Ganadas</p>
+                        <p id="referral-earnings" class="text-3xl font-bold tracking-tight mt-1">$0</p>
+                    </div>
+
+                    <div class="bg-gray-200 dark:bg-gray-800 p-6 rounded-2xl text-left">
+                        <h2 class="text-lg font-bold mb-3">Tu Enlace de Invitación</h2>
+                        <div class="flex space-x-2">
+                             <input type="text" id="referral-link-input" 
+                                   value="https://inversionesapp.com/ref/carloslopez123" 
+                                   class="flex-1 p-3 bg-gray-100 dark:bg-gray-700 border border-gray-400 dark:border-gray-600 rounded-lg focus:outline-none" 
                                    readonly>
                             <button id="copy-referral-link" class="p-2 bg-cyan-500 text-white rounded-lg hover:bg-cyan-600 transition-colors flex items-center">
                                  <span class="material-symbols-outlined text-xl">content_copy</span>
@@ -562,9 +564,10 @@
             <div id="modal-icon" class="mb-4">
                 <div class="w-16 h-16 border-4 border-dashed rounded-full animate-spin border-cyan-500 mx-auto"></div>
             </div>
-            <p id="modal-message" class="text-lg font-semibold text-gray-800 dark:text-gray-200"></p>
+            <p id="modal-message" class="text-lg font-semibold text-gray-900 dark:text-gray-100">Cargando...</p>
         </div>
     </div>
+
     <script src="script.js"></script>
 </body>
 </html>
