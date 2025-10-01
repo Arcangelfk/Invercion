@@ -8,10 +8,7 @@ document.addEventListener('DOMContentLoaded', () => {
         user: {
             name: 'Carlos López',
             email: 'carlos.lopez@email.com',
-            phone: '3001234567',
-            // --- CAMBIO CLAVE PARA LA PERSISTENCIA ---
-            // Cargar la URL guardada en localStorage si existe. Si no, usar la URL por defecto.
-            avatarUrl: localStorage.getItem('userAvatarUrl') || 'https://i.pravatar.cc/150?u=carlos' 
+            phone: '3001234567'
         }
     };
 
@@ -43,11 +40,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const withdrawAmountInput = document.getElementById('withdraw-amount');
     const depositAmountInput = document.getElementById('deposit-amount');
     
-    // NUEVO: Elementos de Avatar
-    const userAvatarProfileEl = document.getElementById('user-avatar-profile');
-    const avatarFileInput = document.getElementById('avatar-file-input');
-    
-    // NUEVO: Elementos de Referidos
+    // Elementos de Referidos
     const referralLinkInput = document.getElementById('referral-link-input');
     const copyReferralLinkButton = document.getElementById('copy-referral-link');
     
@@ -194,11 +187,6 @@ document.addEventListener('DOMContentLoaded', () => {
         userNameProfileEl.textContent = appState.user.name;
         userEmailProfileEl.textContent = appState.user.email;
         userNequiNumberEl.textContent = `+57 ${appState.user.phone}`;
-        
-        // NUEVO: Actualizar imagen de perfil usando appState.user.avatarUrl (que ya incluye el valor de localStorage)
-        if (userAvatarProfileEl) {
-            userAvatarProfileEl.src = appState.user.avatarUrl; 
-        }
 
         // Actualizar mínimo de retiro basado en el plan de mayor valor
         let minWithdrawal = 10000;
@@ -214,7 +202,7 @@ document.addEventListener('DOMContentLoaded', () => {
     };
     
     // --- ESTADO INICIAL ---
-    // Llamar a updateUI aquí para que la foto se cargue desde el localStorage antes de cualquier navegación
+    // Cargar estado inicial y actualizar UI
     updateUI(); 
 
     if (localStorage.getItem('theme') === 'dark') {
@@ -245,18 +233,12 @@ document.addEventListener('DOMContentLoaded', () => {
                 modalCard.classList.add('scale-95');
                 setTimeout(() => {
                     modal.classList.add('hidden');
-                    // Se elimina la lógica de navegación general, ahora solo se usa en login y en depósitos/retiros exitosos
-                    // para permitir que el login maneje su propia navegación después del éxito.
                     if (type === 'success' && (window.location.hash === '#depositar' || window.location.hash === '#retirar')) {
                         window.location.hash = '#dashboard';
                     }
                      // Añadido para el cambio de contraseña
                     if (type === 'success' && window.location.hash === '#seguridad') {
                         window.location.hash = '#perfil';
-                    }
-                    // NUEVO: Añadido para el cambio de foto de perfil
-                    if (type === 'success' && window.location.hash === '#perfil' && modalMessage.textContent.includes('Foto de perfil')) {
-                        // No navegar, solo ocultar modal
                     }
                 }, 300); 
             }, 1500);
@@ -461,32 +443,6 @@ document.addEventListener('DOMContentLoaded', () => {
             setTimeout(() => { window.location.hash = '#perfil'; }, 1500);
         });
     }
-
-    // Lógica MEJORADA para cambiar la foto de perfil (Más fiable en móviles y persistente)
-    if (avatarFileInput) {
-        avatarFileInput.addEventListener('change', (e) => {
-            const file = e.target.files[0];
-            if (file) {
-                // 1. Usar URL.createObjectURL para previsualización inmediata y rápida (SOLUCIÓN MÓVIL)
-                const objectUrl = URL.createObjectURL(file);
-                userAvatarProfileEl.src = objectUrl; // Actualiza el DOM inmediatamente
-                
-                // 2. Usar FileReader para obtener la Data URL (Base64) y guardarla en localStorage (PERSISTENCIA/CACHE)
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    const dataUrl = e.target.result;
-                    appState.user.avatarUrl = dataUrl;
-                    localStorage.setItem('userAvatarUrl', dataUrl); // <-- GUARDA LA IMAGEN EN CACHÉ DEL NAVEGADOR
-                    
-                    // Limpiar la URL temporal de objeto después de guardar la data
-                    URL.revokeObjectURL(objectUrl);
-
-                    showModal('success', 'Foto de perfil actualizada.');
-                };
-                reader.readAsDataURL(file);
-            }
-        });
-    }
     
     // NUEVO: Lógica para copiar el enlace de referido
     if (copyReferralLinkButton) {
@@ -516,9 +472,6 @@ document.addEventListener('DOMContentLoaded', () => {
         appState.balance = 0;
         appState.activePlans = [];
         appState.transactions = []; // Limpiar historial al cerrar sesión
-        // Opcional: limpiar el avatar guardado al cerrar sesión
-        localStorage.removeItem('userAvatarUrl');
-        appState.user.avatarUrl = 'https://i.pravatar.cc/150?u=carlos'; // Restaurar por defecto
         window.location.hash = '#login';
     });
 
